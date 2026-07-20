@@ -1,3 +1,4 @@
+import Bag from '@/views/Bag.vue'
 import CakeDetails from '@/views/CakeDetails.vue'
 import Cakes from '@/views/Cakes.vue'
 import CheckOut from '@/views/CheckOut.vue'
@@ -57,6 +58,10 @@ const routes = [
   {
     path: '/profile',
     component: Profile,
+  },
+  {
+    path: '/bag',
+    component: Bag,
   },
 
   // {

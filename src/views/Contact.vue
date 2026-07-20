@@ -3,127 +3,181 @@
 
   <!-- Hero Section -->
 
-  <section class="contact-hero">
-    <div class="hero-content">
+  <section class="page-header">
+    <div class="header-content">
+      <p class="page-subtitle">GET IN TOUCH</p>
+
       <h1>Contact Us</h1>
 
-      <p>
-        We'd love to hear from you. Whether it's a custom cake, wedding cake, birthday cake or
-        simply a question, we're here to help.
+      <p class="page-description">
+        We'd love to hear from you. Whether you're planning a birthday, wedding, anniversary or a
+        custom celebration cake, our team is here to help make your special day even sweeter.
       </p>
     </div>
   </section>
 
   <!-- Contact Information -->
 
-  <section class="contact-info">
-    <div class="left">
-      <h4>Get In Touch</h4>
+  <section class="contact-section">
+    <!-- Contact Information -->
 
-      <h2>Visit Our Bakery</h2>
+    <div class="contact-card">
+      <p class="card-subtitle">OUR BAKERY</p>
 
-      <p>
-        We bake every cake with love and premium ingredients. Contact us for birthdays, weddings,
-        anniversaries, baby showers and every special celebration.
+      <h2>Let's Create Something Sweet Together</h2>
+
+      <p class="card-description">
+        Have questions about our cakes or need a custom design? We'd be happy to help.
       </p>
 
-      <div class="info">
+      <div class="info-list">
         <div class="info-item">
-          <div class="icon">📍</div>
+          <div class="icon">
+            <i class="bi bi-geo-alt"></i>
+          </div>
 
           <div>
-            <h3>Address</h3>
+            <h4>Address</h4>
             <p>Winnipeg, Manitoba, Canada</p>
           </div>
         </div>
 
         <div class="info-item">
-          <div class="icon">📞</div>
+          <div class="icon">
+            <i class="bi bi-telephone"></i>
+          </div>
 
           <div>
-            <h3>Phone</h3>
+            <h4>Phone</h4>
             <p>+1 (204) XXX-XXXX</p>
           </div>
         </div>
 
         <div class="info-item">
-          <div class="icon">✉️</div>
+          <div class="icon">
+            <i class="bi bi-envelope"></i>
+          </div>
 
           <div>
-            <h3>Email</h3>
-            <p>hello@thecakestudio.ca</p>
+            <h4>Email</h4>
+            <p>hello@paprikabakes.ca</p>
           </div>
         </div>
 
         <div class="info-item">
-          <div class="icon">🕒</div>
+          <div class="icon">
+            <i class="bi bi-clock"></i>
+          </div>
 
           <div>
-            <h3>Opening Hours</h3>
-            <p>Mon - Sat : 9:00 AM - 8:00 PM</p>
-            <p>Sunday : 10:00 AM - 6:00 PM</p>
+            <h4>Hours</h4>
+            <p>Mon - Sat : 9 AM - 8 PM</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Contact Form -->
+    <!-- Form -->
 
-    <div class="right">
-      <div class="contact-card">
-        <h2>Send us a Message</h2>
+    <div class="contact-card">
+      <h2>Send Us a Message</h2>
 
-        <form @submit.prevent="submitForm">
-          <input type="text" v-model="contact.name" placeholder="Full Name" required />
+      <form @submit.prevent="submitForm">
+        <input v-model="contact.name" placeholder="Full Name" />
 
-          <input type="email" v-model="contact.email" placeholder="Email" required />
+        <input v-model="contact.email" placeholder="Email Address" />
 
-          <input type="text" v-model="contact.phone" placeholder="Phone Number" />
+        <input v-model="contact.phone" placeholder="Phone Number" />
 
-          <input type="text" v-model="contact.subject" placeholder="Subject" />
+        <input v-model="contact.subject" placeholder="Subject" />
 
-          <textarea
-            rows="6"
-            v-model="contact.message"
-            placeholder="Write your message..."
-          ></textarea>
+        <textarea
+          rows="6"
+          v-model="contact.message"
+          placeholder="Tell us about your cake..."
+        ></textarea>
 
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
+        <button>Send Message</button>
+      </form>
     </div>
   </section>
 
   <!-- Google Map -->
 
   <section class="map-section">
-    <iframe
-      src="https://www.google.com/maps?q=Winnipeg&output=embed"
-      allowfullscreen=""
-      loading="lazy"
-    >
-    </iframe>
+    <div class="section-heading">
+      <p class="section-subtitle">FIND US</p>
+
+      <h2>Visit Our Bakery</h2>
+
+      <p>
+        Stop by our bakery to discuss your custom cake ideas or pick up your freshly baked order.
+      </p>
+    </div>
+
+    <div class="map-card">
+      <iframe
+        src="https://www.google.com/maps?q=Winnipeg&output=embed"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
   </section>
 
   <!-- FAQ -->
 
-  <section class="faq">
-    <h4>Frequently Asked Questions</h4>
+<section class="faq-section">
 
-    <h2>Need Help?</h2>
+    <div class="section-heading">
 
-    <div class="faq-item" v-for="item in faqs" :key="item.question">
-      <div class="question" @click="item.open = !item.open">
-        <span>{{ item.question }}</span>
+        <p class="section-subtitle">
+            FREQUENTLY ASKED QUESTIONS
+        </p>
 
-        <span>{{ item.open ? '-' : '+' }}</span>
-      </div>
+        <h2>
+            Need Help?
+        </h2>
 
-      <div v-if="item.open" class="answer">
-        {{ item.answer }}
-      </div>
+        <p>
+            Here are some of the questions we receive most often.
+        </p>
+
     </div>
-  </section>
+
+    <div
+        class="faq-item"
+        v-for="item in faqs"
+        :key="item.question"
+    >
+
+        <div
+            class="faq-question"
+            @click="item.open=!item.open"
+        >
+
+            <span>{{ item.question }}</span>
+
+            <i
+              class="bi"
+              :class="item.open ? 'bi-dash-lg' : 'bi-plus-lg'"
+            ></i>
+
+        </div>
+
+        <transition name="faq">
+
+            <div
+                v-if="item.open"
+                class="faq-answer"
+            >
+                {{ item.answer }}
+            </div>
+
+        </transition>
+
+    </div>
+
+</section>
 
   <Footer />
 </template>
@@ -199,129 +253,117 @@ export default {
 </script>
 
 <style scoped>
-.contact-hero {
-  position: relative;
-  background: #5ed3d1;
-  color: white;
-  padding: 130px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
+/* ===========================
+      PAGE HEADER
+=========================== */
+
+.page-header {
+  width: min(92%, 1400px);
+  margin: 70px auto;
 }
 
-.contact-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.15) 0px,
-    rgba(255, 255, 255, 0.15) 1px,
-    transparent 1px,
-    transparent 120px
-  );
-
-  z-index: 0;
-}
-
-.contact-hero::after {
-  content: '';
-
-  position: absolute;
-
-  left: 0;
-  bottom: -1px;
-
-  width: 100%;
-  height: 22px;
-
-  background:
-    radial-gradient(
-      circle at 20px 0,
-      transparent 20px,
-      white 21px
-    );
-  background-size: 40px 22px;
-  background-repeat: repeat-x;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-}
-
-.contact-hero h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.contact-hero p {
-  max-width: 700px;
-
+.header-content {
+  max-width: 760px;
   margin: auto;
-
-  font-size: 1.2rem;
-
-  line-height: 1.8;
+  text-align: center;
 }
 
-.contact-info {
-  width: 90%;
+.page-subtitle {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  margin-top: 110px;
+}
 
-  max-width: 1400px;
+.page-header h1 {
+  color: var(--primary);
+  font-size: clamp(3rem, 5vw, 4.8rem);
+  margin-bottom: 22px;
+}
 
-  margin: 90px auto;
+.page-description {
+  color: var(--text-light);
+  line-height: 1.9;
+  font-size: 1.1rem;
+}
+
+/* ===========================
+      CONTACT SECTION
+=========================== */
+
+.contact-section {
+  width: min(92%, 1400px);
+
+  margin: 100px auto;
 
   display: grid;
 
   grid-template-columns: 1fr 1fr;
 
-  gap: 80px;
+  gap: 45px;
 }
 
-.left h4 {
-  color: #5ed3d1;
+.contact-card {
+  background: white;
+
+  border-radius: 28px;
+
+  padding: 45px;
+
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
 }
 
-.left h2 {
-  color: #564743;
+.card-subtitle {
+  color: var(--secondary);
 
-  margin: 15px 0;
+  text-transform: uppercase;
 
-  font-size: 3rem;
+  letter-spacing: 2px;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
 }
 
-.left p {
-  color: #666;
+.contact-card h2 {
+  color: var(--primary);
+
+  font-size: 2.3rem;
+
+  margin: 18px 0;
+}
+
+.card-description {
+  color: var(--text-light);
 
   line-height: 1.8;
 }
 
-.info {
-  margin-top: 50px;
+.info-list {
+  margin-top: 35px;
 }
 
 .info-item {
   display: flex;
 
-  align-items: flex-start;
+  gap: 18px;
 
-  gap: 25px;
-
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .icon {
-  width: 70px;
+  width: 58px;
 
-  height: 70px;
+  height: 58px;
 
   border-radius: 50%;
 
-  background: #fff7e4;
+  background: #f8f5f1;
+
+  color: var(--secondary);
 
   display: flex;
 
@@ -329,23 +371,17 @@ export default {
 
   align-items: center;
 
-  font-size: 2rem;
+  font-size: 1.3rem;
 }
 
-.contact-card {
-  background: #fff8e8;
+.info-item h4 {
+  color: var(--primary);
 
-  padding: 40px;
-
-  border-radius: 20px;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 6px;
 }
 
-.contact-card h2 {
-  margin-bottom: 30px;
-
-  color: #564743;
+.info-item p {
+  color: var(--text-light);
 }
 
 form {
@@ -353,20 +389,22 @@ form {
 
   flex-direction: column;
 
-  gap: 20px;
+  gap: 18px;
 }
 
 input,
 textarea {
-  padding: 18px;
+  padding: 18px 20px;
 
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
-  border-radius: 12px;
+  border-radius: 14px;
 
-  background: white;
+  background: #faf7f4;
 
   font-size: 1rem;
+
+  outline: none;
 }
 
 textarea {
@@ -374,108 +412,240 @@ textarea {
 }
 
 button {
-  background: #ffc43d;
+  background: var(--primary);
 
   color: white;
 
   border: none;
 
-  padding: 18px;
+  padding: 16px;
 
   border-radius: 40px;
 
-  cursor: pointer;
-
-  font-size: 1rem;
-
   font-weight: 600;
+
+  cursor: pointer;
 
   transition: 0.3s;
 }
 
 button:hover {
-  background: #5ed3d1;
+  background: var(--secondary);
 }
 
-.map-section {
-  width: 90%;
+/* ===========================
+        MAP
+=========================== */
 
-  max-width: 1400px;
+.map-section{
 
-  margin: 80px auto;
+    width:min(92%,1400px);
+
+    margin:120px auto;
+
 }
 
-iframe {
-  width: 100%;
+.section-heading{
 
-  height: 450px;
+    max-width:700px;
 
-  border: none;
+    margin:0 auto 60px;
 
-  border-radius: 20px;
+    text-align:center;
+
 }
 
-.faq {
-  width: 90%;
+.section-subtitle{
 
-  max-width: 1100px;
+    color:var(--secondary);
 
-  margin: 100px auto;
+    text-transform:uppercase;
+
+    letter-spacing:3px;
+
+    font-size:.95rem;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
 }
 
-.faq h4 {
-  color: #5ed3d1;
+.section-heading h2{
 
-  text-align: center;
+    color:var(--primary);
+
+    font-size:clamp(2.5rem,4vw,3.8rem);
+
+    margin-bottom:18px;
+
 }
 
-.faq h2 {
-  text-align: center;
+.section-heading p{
 
-  color: #564743;
+    color:var(--text-light);
 
-  font-size: 3rem;
+    line-height:1.8;
 
-  margin: 20px 0 50px;
 }
 
-.faq-item {
-  background: #fff8e8;
+.map-card{
 
-  border-radius: 15px;
+    overflow:hidden;
 
-  margin-bottom: 20px;
+    border-radius:28px;
 
-  overflow: hidden;
+    box-shadow:0 20px 45px rgba(23,20,20,.10);
+
 }
 
-.question {
-  padding: 22px;
+.map-card iframe{
 
-  display: flex;
+    width:100%;
 
-  justify-content: space-between;
+    height:520px;
 
-  cursor: pointer;
+    border:none;
 
-  font-weight: 600;
 }
 
-.answer {
-  padding: 0 22px 22px;
+/* ===========================
+        FAQ
+=========================== */
 
-  color: #666;
+.faq-section{
 
-  line-height: 1.8;
+    width:min(92%,900px);
+
+    margin:120px auto;
+
 }
 
-@media (max-width: 900px) {
-  .contact-info {
-    grid-template-columns: 1fr;
-  }
+.faq-item{
 
-  .contact-hero h1 {
-    font-size: 3rem;
-  }
+    background:white;
+
+    border-radius:20px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 10px 30px rgba(23,20,20,.08);
+
+    overflow:hidden;
+
+}
+
+.faq-question{
+
+    padding:24px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    color:var(--primary);
+
+}
+
+.faq-question i{
+
+    color:var(--secondary);
+
+    font-size:1.1rem;
+
+}
+
+.faq-answer{
+
+    padding:0 30px 25px;
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+}
+
+/* Animation */
+
+.faq-enter-active,
+.faq-leave-active{
+
+    transition:all .3s ease;
+
+}
+
+.faq-enter-from,
+.faq-leave-to{
+
+    opacity:0;
+
+    transform:translateY(-8px);
+
+}
+
+/* ===========================
+        MOBILE
+=========================== */
+
+@media(max-width:992px){
+
+.contact-section{
+
+grid-template-columns:1fr;
+
+}
+
+.contact-card{
+
+padding:35px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.page-header{
+
+margin:50px auto;
+
+}
+
+.page-header h1{
+
+font-size:2.8rem;
+
+}
+
+.contact-card h2{
+
+font-size:2rem;
+
+}
+
+.map-card iframe{
+
+height:380px;
+
+}
+
+.faq-question{
+
+padding:20px;
+
+}
+
+.faq-answer{
+
+padding:0 20px 20px;
+
+}
+
 }
 </style>

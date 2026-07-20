@@ -5,17 +5,19 @@
     <!-- Breadcrumb -->
 
     <div class="breadcrumb">
-      <router-link to="/">Home</router-link>
+      <router-link to="/"> Home </router-link>
 
-      /
+      <i class="bi bi-chevron-right"></i>
 
       <router-link :to="cake.category === 'THEMED' ? '/theme-cakes' : '/classic-cakes'">
         {{ cake.category === 'THEMED' ? 'Themed Cakes' : 'Classic Cakes' }}
       </router-link>
 
-      /
+      <i class="bi bi-chevron-right"></i>
 
-      <span>{{ cake.name }}</span>
+      <span>
+        {{ cake.name }}
+      </span>
     </div>
 
     <!-- Product -->
@@ -43,6 +45,25 @@
         <p class="description">
           {{ cake.description }}
         </p>
+        <div class="product-highlights">
+          <div class="highlight">
+            <i class="bi bi-award"></i>
+
+            <span>Premium Ingredients</span>
+          </div>
+
+          <div class="highlight">
+            <i class="bi bi-truck"></i>
+
+            <span>Local Delivery Available</span>
+          </div>
+
+          <div class="highlight">
+            <i class="bi bi-heart"></i>
+
+            <span>Freshly Baked Daily</span>
+          </div>
+        </div>
 
         <hr />
 
@@ -70,6 +91,25 @@
           <button class="cart-btn" @click="addToCart">Add To Cart</button>
 
           <button class="buy-btn" @click="buyNow">Buy Now</button>
+        </div>
+        <div class="trust-badges">
+          <div>
+            <i class="bi bi-shield-check"></i>
+
+            <span>Secure Checkout</span>
+          </div>
+
+          <div>
+            <i class="bi bi-cake2"></i>
+
+            <span>Freshly Made to Order</span>
+          </div>
+
+          <div>
+            <i class="bi bi-patch-check"></i>
+
+            <span>Quality Guaranteed</span>
+          </div>
         </div>
       </div>
     </div>
@@ -171,17 +211,16 @@ export default {
         quantity: this.quantity,
         weight: this.weightMap[this.selectedOptions.weight],
         message: this.selectedOptions.message,
-        sponge_id: this.selectedOptions.sponge?.id ?? null,
+        spongeId: this.selectedOptions.sponge?.id ?? null,
         fillingId: this.selectedOptions.filling?.id ?? null,
         frostingId: this.selectedOptions.frosting?.id ?? null,
       }
 
       console.log('cartItem', cartItem)
 
-      await addToCart(cartItem)
+      const response = await addToCart(cartItem)
       // console.log(this.cart, 'Cart Item')
-      console.log('added')
-
+      console.log('response cart', response)
       alert('Added to Cart')
     },
     buyNow() {
@@ -214,151 +253,299 @@ export default {
 }
 </script>
 <style scoped>
-.cake-details {
-  width: 90%;
-  max-width: 1450px;
-  margin: 60px auto;
-}
-
-/* ===========================
-   Breadcrumb
-=========================== */
+/*==========================
+    Breadcrumb
+===========================*/
 
 .breadcrumb {
-  margin-bottom: 40px;
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 45px;
+
   font-size: 0.95rem;
-  color: #888;
+
+  color: var(--text-light);
 }
 
 .breadcrumb a {
-  color: #5ed3d1;
+  color: var(--secondary);
+
   text-decoration: none;
-  font-weight: 500;
+
+  font-weight: 600;
+
+  transition: 0.3s;
 }
 
 .breadcrumb a:hover {
-  text-decoration: underline;
+  color: var(--primary);
 }
 
-/* ===========================
-   Layout
-=========================== */
+.breadcrumb span {
+  color: var(--primary);
+
+  font-weight: 600;
+}
+
+.breadcrumb i {
+  font-size: 0.75rem;
+
+  color: #bbb;
+}
+
+/*==========================
+    Layout
+===========================*/
+
+.cake-details {
+  width: min(92%, 1450px);
+
+  margin: 70px auto 100px;
+}
 
 .details-container {
   display: grid;
+
   grid-template-columns: 1.1fr 1fr;
-  gap: 70px;
+
+  gap: 90px;
+
   align-items: start;
 }
 
-/* ===========================
-   Image
-=========================== */
+/*==========================
+      Image
+===========================*/
 
 .image-section {
   position: sticky;
-  top: 100px;
+
+  top: 110px;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 30px;
+
+  box-shadow: 0 18px 45px rgba(23, 20, 20, 0.08);
 }
 
 .image-section img {
   width: 100%;
+
+  display: block;
+
   border-radius: 24px;
-  object-fit: cover;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+
   transition: 0.4s;
 }
 
 .image-section img:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
-/* ===========================
-   Product Info
-=========================== */
+/*==========================
+      Product Info
+===========================*/
 
 .info-section h1 {
-  font-size: 3rem;
-  color: #564743;
-  margin-bottom: 15px;
+  font-size: clamp(2.8rem, 5vw, 4rem);
+
+  color: var(--primary);
+
+  margin-bottom: 18px;
+
+  line-height: 1.2;
 }
 
 .rating {
-  color: #ffc43d;
-  margin-bottom: 20px;
-  font-size: 1.15rem;
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  color: var(--secondary);
+
+  font-size: 1rem;
+
+  margin-bottom: 28px;
 }
 
 .rating span {
-  color: #888;
-  margin-left: 10px;
+  color: var(--text-light);
 }
 
 .price {
-  color: #5ed3d1;
-  font-size: 2.2rem;
+  color: var(--secondary);
+
+  font-size: 2.4rem;
+
   margin-bottom: 25px;
 }
 
 .description {
-  color: #666;
-  line-height: 1.8;
+  color: var(--text-light);
+
+  font-size: 1.05rem;
+
+  line-height: 1.9;
+
   margin-bottom: 35px;
 }
 
 hr {
   border: none;
-  border-top: 1px solid #eee;
-  margin: 35px 0;
-}
 
-/* ===========================
-   Buttons
-=========================== */
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  margin: 40px 0;
+}
+/*==========================
+      ACTION BUTTONS
+===========================*/
 
 .buttons {
   display: flex;
-  gap: 20px;
-  margin-top: 35px;
+
+  gap: 18px;
+
+  margin-top: 40px;
 }
 
 .cart-btn,
 .buy-btn {
   flex: 1;
-  padding: 18px;
+
+  padding: 18px 30px;
+
   border: none;
-  border-radius: 40px;
-  color: white;
-  cursor: pointer;
+
+  border-radius: 50px;
+
   font-size: 1rem;
+
   font-weight: 600;
-  transition: 0.3s;
+
+  cursor: pointer;
+
+  transition: 0.35s ease;
 }
 
 .cart-btn {
-  background: #ffc43d;
+  background: var(--primary);
+
+  color: white;
 }
 
 .buy-btn {
-  background: #5ed3d1;
+  background: var(--secondary);
+
+  color: white;
 }
 
 .cart-btn:hover {
-  background: #5ed3d1;
-  transform: translateY(-2px);
+  background: var(--secondary);
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 25px rgba(23, 20, 20, 0.15);
 }
 
 .buy-btn:hover {
-  background: #ffc43d;
-  transform: translateY(-2px);
+  background: var(--primary);
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 25px rgba(23, 20, 20, 0.15);
 }
 
-/* ===========================
-   Responsive
-=========================== */
+/*==========================
+     PRODUCT HIGHLIGHTS
+===========================*/
+
+.product-highlights {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 18px;
+
+  margin-bottom: 35px;
+}
+
+.highlight {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  background: white;
+
+  padding: 12px 18px;
+
+  border-radius: 50px;
+
+  box-shadow: 0 8px 18px rgba(23, 20, 20, 0.06);
+}
+
+.highlight i {
+  color: var(--secondary);
+
+  font-size: 1.1rem;
+}
+
+.highlight span {
+  color: var(--primary);
+
+  font-weight: 500;
+}
+/*==========================
+      TRUST BADGES
+===========================*/
+
+.trust-badges {
+  display: flex;
+
+  gap: 28px;
+
+  margin-top: 35px;
+
+  flex-wrap: wrap;
+}
+
+.trust-badges div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--text-light);
+
+  font-size: 0.95rem;
+}
+
+.trust-badges i {
+  color: var(--secondary);
+
+  font-size: 1.2rem;
+}
+/*==========================
+      RESPONSIVE
+===========================*/
 
 @media (max-width: 1100px) {
   .details-container {
     grid-template-columns: 1fr;
+
+    gap: 50px;
   }
 
   .image-section {
@@ -367,16 +554,28 @@ hr {
 }
 
 @media (max-width: 768px) {
+  .cake-details {
+    margin: 40px auto 80px;
+  }
+
   .info-section h1 {
-    font-size: 2.3rem;
+    font-size: 2.5rem;
   }
 
   .price {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .buttons {
     flex-direction: column;
+  }
+
+  .product-highlights {
+    flex-direction: column;
+  }
+
+  .trust-badges {
+    gap: 18px;
   }
 }
 </style>

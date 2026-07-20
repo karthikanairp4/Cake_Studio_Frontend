@@ -1,29 +1,15 @@
 <template>
   <NavBar />
 
-  <!-- Hero -->
+  <section class="cakes-page">
+    <div class="page-header">
+      <p class="page-subtitle">OUR COLLECTION</p>
 
-  <section class="hero">
-    <div class="hero-content">
       <h1>Themed Cakes</h1>
 
-      <p>
-        Discover beautifully handcrafted themed cakes for birthdays, baby showers, weddings and
-        every special celebration. Personalize the flavour, filling, frosting and size to make it
-        uniquely yours.
-      </p>
-    </div>
-  </section>
-
-  <!-- Cakes -->
-
-  <section class="cakes-page">
-    <div class="section-title">
-      <h2>Choose Your Favourite Theme</h2>
-
-      <p>
-        Every themed cake can be customized with your preferred sponge, filling, frosting and cake
-        size.
+      <p class="page-description">
+        Beautiful custom-designed cakes for birthdays, weddings, baby showers and every special
+        occasion. Every cake can be personalized to match your celebration.
       </p>
     </div>
 
@@ -66,145 +52,57 @@ export default {
 </script>
 
 <style scoped>
-/* ================= HERO ================= */
+.cakes-page {
+  width: min(92%, 1400px);
+  margin: 70px auto;
+}
 
-.hero {
-  position: relative;
-
-  background: #5ed3d1;
-
-  color: white;
-
-  padding: 130px 20px;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
+.page-header {
   text-align: center;
-
-  overflow: hidden;
+  margin-bottom: 70px;
 }
 
-.hero::before {
-  content: '';
-
-  position: absolute;
-
-  inset: 0;
-
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.15) 0,
-    rgba(255, 255, 255, 0.15) 1px,
-    transparent 1px,
-    transparent 120px
-  );
+.page-subtitle {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  margin-top: 110px;
 }
 
-.hero-content {
-  position: relative;
-
-  z-index: 2;
-
-  max-width: 850px;
-}
-
-.hero h1 {
-  font-size: 4rem;
-
+.page-header h1 {
+  color: var(--primary);
+  font-size: clamp(3rem, 5vw, 4.8rem);
   margin-bottom: 25px;
 }
 
-.hero p {
-  font-size: 1.2rem;
-
-  line-height: 1.8;
-}
-
-/* Wave */
-
-.hero::after {
-  content: '';
-
-  position: absolute;
-
-  left: 0;
-
-  bottom: -1px;
-
-  width: 100%;
-
-  height: 30px;
-
-  background: radial-gradient(circle at 20px 0, white 22px, transparent 23px);
-
-  background-size: 40px 30px;
-
-  background-repeat: repeat-x;
-}
-
-/* ================= PAGE ================= */
-
-.cakes-page {
-  width: 90%;
-
-  max-width: 1450px;
-
-  margin: 80px auto;
-}
-
-.section-title {
-  text-align: center;
-
-  margin-bottom: 60px;
-}
-
-.section-title h2 {
-  font-size: 2.7rem;
-
-  color: #564743;
-
-  margin-bottom: 20px;
-}
-
-.section-title p {
-  color: #666;
-
-  font-size: 1.1rem;
-
-  max-width: 700px;
-
+.page-description {
+  max-width: 720px;
   margin: auto;
-
-  line-height: 1.8;
+  color: var(--text-light);
+  line-height: 1.9;
+  font-size: 1.1rem;
 }
-
-/* ================= GRID ================= */
 
 .cakes-grid {
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
   gap: 35px;
 }
 
-/* ================= Responsive ================= */
-
 @media (max-width: 768px) {
-  .hero {
-    padding: 100px 20px;
+  .page-header {
+    margin-bottom: 50px;
   }
 
-  .hero h1 {
-    font-size: 3rem;
+  .page-header h1 {
+    font-size: 2.8rem;
   }
 
-  .section-title h2 {
-    font-size: 2rem;
+  .page-description {
+    font-size: 1rem;
   }
 }
 </style>

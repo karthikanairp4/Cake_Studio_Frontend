@@ -1,43 +1,59 @@
 <template>
   <div class="summary-card">
-    <h2>Order Summary</h2>
-
-    <div class="summary-row">
-      <span>Base Cake</span>
-      <span>${{ cake.basePrice || 0 }}</span>
+    <div class="summary-header">
+      <h2>Order Summary</h2>
+      <p>Review your customized cake before checkout.</p>
     </div>
 
-    <div v-if="selected.sponge" class="summary-row">
-      <span>{{ selected.sponge.name }}</span>
-      <span>+${{ selected.sponge.price }}</span>
+    <div class="summary-body">
+      <div class="summary-row">
+        <span>Base Cake</span>
+        <span>${{ Number(cake.basePrice || 0).toFixed(2) }}</span>
+      </div>
+
+      <div v-if="selected.weight" class="summary-row">
+        <span>Weight</span>
+        <span>{{ selected.weight }}</span>
+      </div>
+
+      <div v-if="selected.sponge" class="summary-row">
+        <span>{{ selected.sponge.name }}</span>
+        <span>+${{ Number(selected.sponge.price).toFixed(2) }}</span>
+      </div>
+
+      <div v-if="selected.filling" class="summary-row">
+        <span>{{ selected.filling.name }}</span>
+        <span>+${{ Number(selected.filling.price).toFixed(2) }}</span>
+      </div>
+
+      <div v-if="selected.frosting" class="summary-row">
+        <span>{{ selected.frosting.name }}</span>
+        <span>+${{ Number(selected.frosting.price).toFixed(2) }}</span>
+      </div>
+
+      <div v-if="cake.category === 'THEMED'" class="summary-row">
+        <span>Customization</span>
+        <span>+$10.00</span>
+      </div>
+
+      <div class="summary-row">
+        <span>Quantity</span>
+        <span>{{ quantity }}</span>
+      </div>
+
+      <hr />
+
+      <div class="total-row">
+        <span>Total</span>
+
+        <span class="price"> ${{ total.toFixed(2) }} </span>
+      </div>
     </div>
 
-    <div v-if="selected.filling" class="summary-row">
-      <span>{{ selected.filling.name }}</span>
-      <span>+${{ selected.filling.price }}</span>
-    </div>
+    <div class="summary-note">
+      <i class="bi bi-info-circle"></i>
 
-    <div v-if="selected.frosting" class="summary-row">
-      <span>{{ selected.frosting.name }}</span>
-      <span>+${{ selected.frosting.price }}</span>
-    </div>
-
-    <div v-if="selected.size" class="summary-row">
-      <span>{{ selected.size.name }}</span>
-      <span>+${{ selected.size.price }}</span>
-    </div>
-
-    <div v-if="cake.category === 'THEMED'" class="summary-row">
-      <span>Customization Fee</span>
-      <span>+$10.00</span>
-    </div>
-
-    <hr />
-
-    <div class="total">
-      <span>Total</span>
-
-      <span>${{ total.toFixed(2) }}</span>
+      Final pricing includes all selected customizations.
     </div>
   </div>
 </template>
@@ -88,22 +104,52 @@ export default {
 </script>
 
 <style scoped>
+/*==========================
+      SUMMARY CARD
+===========================*/
+
 .summary-card {
   background: white;
 
-  border-radius: 20px;
+  border-radius: 28px;
 
-  padding: 30px;
+  padding: 32px;
 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-
-  top: 100px;
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
 }
 
-.summary-card h2 {
-  margin-bottom: 25px;
+/*==========================
+      HEADER
+===========================*/
 
-  color: #564743;
+.summary-header {
+  margin-bottom: 30px;
+}
+
+.summary-header h2 {
+  color: var(--primary);
+
+  font-size: 1.8rem;
+
+  margin-bottom: 8px;
+}
+
+.summary-header p {
+  color: var(--text-light);
+
+  line-height: 1.7;
+}
+
+/*==========================
+      ROWS
+===========================*/
+
+.summary-body {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
 }
 
 .summary-row {
@@ -111,28 +157,102 @@ export default {
 
   justify-content: space-between;
 
-  margin-bottom: 18px;
+  align-items: center;
 
-  color: #666;
+  color: var(--text-light);
+
+  font-size: 0.98rem;
 }
+
+.summary-row span:last-child {
+  color: var(--primary);
+
+  font-weight: 600;
+}
+
+/*==========================
+      DIVIDER
+===========================*/
 
 hr {
-  margin: 25px 0;
-
   border: none;
 
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  margin: 10px 0;
 }
 
-.total {
+/*==========================
+      TOTAL
+===========================*/
+
+.total-row {
   display: flex;
 
   justify-content: space-between;
 
-  font-size: 1.3rem;
+  align-items: center;
 
-  font-weight: bold;
+  margin-top: 5px;
 
-  color: #564743;
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  color: var(--primary);
+}
+
+.price {
+  color: var(--secondary);
+
+  font-size: 2rem;
+}
+
+/*==========================
+      FOOTER NOTE
+===========================*/
+
+.summary-note {
+  margin-top: 28px;
+
+  padding: 16px;
+
+  border-radius: 16px;
+
+  background: #faf7f4;
+
+  color: var(--text-light);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 0.92rem;
+}
+
+.summary-note i {
+  color: var(--secondary);
+
+  font-size: 1rem;
+}
+
+/*==========================
+      RESPONSIVE
+===========================*/
+
+@media (max-width: 768px) {
+  .summary-card {
+    padding: 24px;
+  }
+
+  .summary-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .price {
+    font-size: 1.8rem;
+  }
 }
 </style>

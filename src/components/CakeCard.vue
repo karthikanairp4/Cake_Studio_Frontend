@@ -7,13 +7,15 @@
     </div>
 
     <div class="cake-details">
-      <div v-if="cake.category === 'THEMED'" class="badge">✨ Fully Customizable</div>
+      <div v-if="cake.category === 'THEMED'" class="badge">Fully Customizable</div>
 
       <h3>{{ cake.name }}</h3>
 
-      <div class="freshly-baked">🎂 Freshly Baked</div>
+      <div class="freshly-baked">Handcrafted Daily</div>
 
-      <p class="price">From ${{ cake.basePrice }}</p>
+      <p class="price">
+        {{ cake.category === 'THEMED' ? `Starting at $${cake.basePrice}` : `$${cake.basePrice}` }}
+      </p>
 
       <button class="details-btn" @click.stop="goToDetails">
         {{ cake.category === 'THEMED' ? 'Customize Cake' : 'View Details' }}
@@ -54,22 +56,23 @@ export default {
 
 <style scoped>
 .cake-card {
-  background: white;
-  border-radius: 20px;
+  background: var(--white);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: 0.35s;
+  box-shadow: 0 12px 35px rgba(23, 20, 20, 0.08);
+  transition: all 0.35s ease;
 }
 
 .cake-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 22px 50px rgba(23, 20, 20, 0.14);
 }
+
 
 .cake-image {
   position: relative;
-  height: 280px;
+  height: 340px;
   overflow: hidden;
 }
 
@@ -77,81 +80,157 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.5s;
+  transition: transform 0.45s ease;
 }
 
-.cake-card:hover img {
-  transform: scale(1.08);
+.cake-card:hover .cake-image img {
+  transform: scale(1.06);
 }
 
-/* ---------- THEMED TAG ---------- */
+/* ===========================
+      CATEGORY LABEL
+=========================== */
 
 .overlay {
   position: absolute;
   top: 18px;
   left: 18px;
-  background: #ff9800;
+
+  background: rgba(23, 20, 20, 0.92);
+
   color: white;
-  padding: 8px 18px;
+
+  padding: 8px 16px;
+
   border-radius: 30px;
-  font-size: 0.8rem;
+
+  font-size: 0.75rem;
+
   font-weight: 600;
-  letter-spacing: 0.5px;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
 }
 
-/* ---------- DETAILS ---------- */
+/* ===========================
+      CONTENT
+=========================== */
 
 .cake-details {
-  padding: 25px;
+  padding: 22px;
 }
 
 .badge {
   display: inline-block;
-  background: #fff7e4;
-  color: #ff9800;
-  padding: 8px 16px;
+
+  margin-bottom: 16px;
+
+  padding: 7px 14px;
+
   border-radius: 30px;
+
+  background: rgba(166, 124, 82, 0.12);
+
+  color: var(--secondary);
+
   font-size: 0.8rem;
+
   font-weight: 600;
-  margin-bottom: 15px;
 }
 
 .cake-details h3 {
-  color: #564743;
-  margin-bottom: 12px;
-  font-size: 1.6rem;
+  color: var(--primary);
+
+  font-size: 1.55rem;
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
 }
 
 .freshly-baked {
-  color: #777;
-  margin-bottom: 18px;
-  font-size: 0.95rem;
+  display: inline-block;
+  /* margin-bottom: 14px; */
+
+  padding: 6px 14px;
+
+  background: #f8f5f1;
+
+  border-radius: 30px;
+
+  color: var(--text-light);
+
+  font-size: 0.85rem;
+
+  font-weight: 500;
 }
 
 .price {
-  color: #5ed3d1;
-  font-size: 1.4rem;
+  /* margin-bottom: 18px; */
+
+  color: var(--secondary);
+
+  font-size: 1.8rem;
+
   font-weight: 700;
-  margin-bottom: 20px;
 }
 
-/* ---------- BUTTON ---------- */
+/* ===========================
+      BUTTON
+=========================== */
 
 .details-btn {
   width: 100%;
+
   padding: 15px;
+
   border: none;
+
   border-radius: 40px;
-  background: #ffc43d;
+
+  background: var(--primary);
+
   color: white;
+
   font-size: 1rem;
+
   font-weight: 600;
+
   cursor: pointer;
-  transition: 0.3s;
+
+  transition: all 0.3s ease;
 }
 
 .details-btn:hover {
-  background: #5ed3d1;
-  transform: translateY(-2px);
+  background: var(--secondary);
+}
+
+/* ===========================
+      RESPONSIVE
+=========================== */
+
+@media (max-width: 992px) {
+  .cake-image {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cake-image {
+    height: 260px;
+  }
+
+  .cake-details {
+    padding: 22px;
+  }
+
+  .cake-details h3 {
+    font-size: 1.35rem;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
 }
 </style>

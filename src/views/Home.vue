@@ -4,23 +4,23 @@
     <div class="hero-container">
       <!-- Left Side -->
       <div class="hero-content">
-        <p class="subtitle">Sweet Bakery 128</p>
+        <p class="subtitle">Freshly Baked Every Day</p>
 
         <h1>
-          Satisfy Your
+          Handcrafted Cakes
           <br />
-          Sweet Tooth
+          <span>For Every Celebration</span>
         </h1>
 
         <p class="description">
-          Explore our wide range of baked goods, lovingly crafted with the finest ingredients and an
-          extra dash of love.
+          From elegant wedding cakes to personalized birthday creations, every cake is baked with
+          premium ingredients and crafted to make your special moments unforgettable.
         </p>
 
         <div class="hero-buttons">
-          <button class="btn-yellow">About Us</button>
+          <router-link class="btn-primary" to="/classic-cakes"> Browse Cakes </router-link>
 
-          <button class="btn-blue">Our Menu</button>
+          <router-link class="btn-secondary" to="/theme-cakes"> Design Your Cake </router-link>
         </div>
       </div>
 
@@ -43,71 +43,97 @@
         </div>
       </div>
     </div>
-
-    <div class="circle-bg"></div>
   </section>
 
   <!-- Featured Cakes -->
   <section class="featured-cakes-section">
     <div class="section-title">
       <h2>Discover Our Cakes</h2>
-      <p>Taste Our Finest Creations</p>
+      <p>Freshly Baked • Crafted With Love</p>
     </div>
 
-    <Swiper
-      :modules="[Navigation]"
-      :slides-per-view="4"
-      :space-between="30"
-      :navigation="true"
-      :loop="cakes.length > 4"
-      :speed="800"
-      class="cake-swiper"
-    >
-      <SwiperSlide v-for="cake in cakes" :key="cake.id">
-        <div class="cake-card">
-          <img :src="`${BASE_URL}${cake.imgUrl}`" :alt="cake.name" />
+    <div class="swiper-wrapper-custom">
+      <!-- Left Arrow -->
+      <button class="custom-prev">
+        <i class="bi bi-chevron-left"></i>
+      </button>
 
-          <h3>{{ cake.name }}</h3>
+      <Swiper
+        :modules="[Navigation]"
+        :navigation="{
+          prevEl: '.custom-prev',
+          nextEl: '.custom-next',
+        }"
+        :slides-per-view="4"
+        :space-between="25"
+        :loop="cakes.length > 4"
+        :speed="800"
+        :breakpoints="{
+          0: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          992: {
+            slidesPerView: 3,
+          },
+          1200: {
+            slidesPerView: 4,
+          },
+        }"
+        class="cake-swiper"
+      >
+        <SwiperSlide v-for="cake in cakes" :key="cake.id">
+          <div class="cake-card">
+            <img :src="`${BASE_URL}${cake.imgUrl}`" :alt="cake.name" />
 
-          <p>${{ cake.basePrice }}</p>
+            <div class="cake-content">
+              <h3>{{ cake.name }}</h3>
 
-          <button class="cake-btn" @click="goToDetails(cake.id)">View Cake</button>
-        </div>
-      </SwiperSlide>
-    </Swiper>
+              <p>${{ cake.basePrice }}</p>
+
+              <button class="cake-btn" @click="goToDetails(cake.id)">Order Now</button>
+            </div>
+          </div>
+        </SwiperSlide>
+      </Swiper>
+
+      <!-- Right Arrow -->
+      <button class="custom-next">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
   </section>
   <!-- About Section -->
   <section class="about-section">
     <div class="about-container">
-      <!-- <div class="about-image">
-        <div>
-          <img src="@/assets/images/cross-bg.png" alt="Croissant" />
-        </div>
-
-        <img src="@/assets/images/crossant.png" alt="Croissant" />
-      </div> -->
       <div class="about-image">
-        <div class="croissant-bg"></div>
-
-        <img class="croissant" src="@/assets/images/crossant.png" alt="Croissant" />
+        <img class="about-photo" src="@/assets/images/about-cake.jpg" alt="Handcrafted Cake" />
       </div>
 
       <div class="about-content">
-        <p class="about-subtitle">About Us</p>
+        <p class="about-subtitle">OUR STORY</p>
 
         <h2>
-          The <span>Taste</span> You Need,
+          Baking Memories,
           <br />
-          For Your Pleasure
+          <span>One Cake at a Time</span>
         </h2>
 
         <p class="about-description">
-          At The Cake Studio, we believe that every celebration deserves something special. From
-          handcrafted cakes to custom-designed masterpieces, we create desserts that bring joy to
-          every occasion.
+          Every cake at The Cake Studio is handcrafted with premium ingredients and creative
+          designs. From birthdays and weddings to every special celebration, we create cakes that
+          are as memorable as the moments they celebrate.
         </p>
 
-        <button class="about-btn">More About Us</button>
+        <ul class="about-features">
+          <li><i class="bi bi-check-circle-fill"></i> Premium Quality Ingredients</li>
+          <li><i class="bi bi-check-circle-fill"></i> Custom Cake Designs</li>
+          <li><i class="bi bi-check-circle-fill"></i> Freshly Baked Every Day</li>
+          <li><i class="bi bi-check-circle-fill"></i> Perfect for Every Celebration</li>
+        </ul>
+        <router-link class="about-btn" to="/contact-us"> Contact Us </router-link>
       </div>
     </div>
   </section>
@@ -115,73 +141,76 @@
   <!-- Menu Section -->
   <section class="menu-section">
     <div class="menu-header">
-      <p class="menu-subtitle">Awesome Menu</p>
-      <h2>Bakery For Lovely People</h2>
+      <p class="menu-subtitle">SHOP BY CATEGORY</p>
+      <h2>Find the Perfect Cake for Every Celebration</h2>
     </div>
 
     <div class="menu-cards">
       <!-- Card 1 -->
-      <div class="menu-card desserts">
+      <div class="menu-card">
         <div class="card-image">
-          <img :src="dessertImg" alt="" />
+          <img :src="dessertImg" alt="Classic Cakes" />
         </div>
-
-        <h3>Desserts</h3>
-
-        <p>Delicious pastries, cupcakes and sweet treats crafted fresh every day.</p>
-
-        <button>Order Now</button>
+        <h3>Classic Cakes</h3>
+        <p>
+          Timeless cakes handcrafted for birthdays, anniversaries and every special celebration.
+        </p>
+        <router-link to="/classic-cakes" class="menu-btn"> Explore Collection </router-link>
       </div>
 
       <!-- Card 2 -->
-      <div class="menu-card cakes">
+      <div class="menu-card">
         <div class="card-image">
-          <img :src="cakeImg" alt="" />
+          <img :src="cakeImg" alt="Themed Cakes" />
         </div>
 
-        <h3>Cakes</h3>
+        <h3>Themed Cakes</h3>
 
-        <p>Explore our collection of birthday, wedding and celebration cakes.</p>
+        <p>Creative character, floral and designer cakes made to impress on every occasion.</p>
 
-        <button>Order Now</button>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="menu-card custom">
-        <div class="card-image">
-          <img :src="customCakeImg" alt="" />
-        </div>
-
-        <h3>Custom Cakes</h3>
-
-        <p>Design your dream cake exactly the way you imagine it.</p>
-
-        <button>Order Now</button>
+        <router-link to="/theme-cakes" class="menu-btn"> Explore Collection </router-link>
       </div>
     </div>
   </section>
   <!-- Gallery Section -->
   <section class="gallery-section">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-    <div class="shape shape3"></div>
-    <div class="shape shape4"></div>
     <div class="gallery-container">
       <!-- Left Content -->
       <div class="gallery-content">
+        <p class="gallery-subtitle">WHY CHOOSE US</p>
+
         <h2>
-          Made by Hand with
+          Crafted with Care,
           <br />
-          Big Love
+          <span>Baked to Perfection</span>
         </h2>
 
         <p>
-          At The Cake Studio, every cake is handcrafted using premium ingredients and baked fresh
-          every day. From birthdays to weddings and every special occasion in between, we create
-          desserts that make unforgettable memories.
+          Every cake is handcrafted with premium ingredients, creative designs, and attention to
+          every detail. We're committed to making every celebration memorable.
         </p>
 
-        <button class="gallery-btn">Explore Our Cakes →</button>
+        <ul class="gallery-features">
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            Premium Ingredients
+          </li>
+
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            Freshly Baked Daily
+          </li>
+
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            Custom Cake Designs
+          </li>
+
+          <li>
+            <i class="bi bi-check-circle-fill"></i>
+            Perfect for Every Celebration
+          </li>
+        </ul>
       </div>
 
       <!-- Top Image -->
@@ -209,23 +238,22 @@
   <!-- Testimonials -->
   <section class="testimonial-section">
     <div class="testimonial-heading">
-      <p>Testimonials</p>
-
+      <p>HAPPY CUSTOMERS</p>
       <h2>What Our Customers Are Saying</h2>
     </div>
 
     <div class="testimonial-container">
       <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
         <p class="review">
           "The cake was absolutely delicious and beautifully decorated. Everyone at our birthday
           party loved it. We will definitely order again!"
         </p>
 
         <div class="customer">
-          <img :src="customer1" alt="Customer" />
 
           <div>
-            <h3>Robert Ban</h3>
+            <h3>Krishnakumar</h3>
 
             <span>Birthday Customer</span>
           </div>
@@ -233,16 +261,16 @@
       </div>
 
       <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
         <p class="review">
           "The custom cake looked exactly like the design we requested. Amazing craftsmanship and
           excellent customer service."
         </p>
 
         <div class="customer">
-          <img :src="customer2" alt="Customer" />
 
           <div>
-            <h3>Nensi Links</h3>
+            <h3>Hridhi</h3>
 
             <span>Wedding Customer</span>
           </div>
@@ -250,16 +278,16 @@
       </div>
 
       <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
         <p class="review">
           "Fresh, soft and full of flavour. The Cake Studio has become our family's favourite bakery
           for every special occasion."
         </p>
 
         <div class="customer">
-          <img :src="customer3" alt="Customer" />
 
           <div>
-            <h3>Olga Fox</h3>
+            <h3>Sundappi</h3>
 
             <span>Regular Customer</span>
           </div>
@@ -283,7 +311,7 @@ import customCakeImg from '@/assets/images/bread-home.png'
 import gallery1 from '@/assets/images/gallary_1.png'
 import gallery2 from '@/assets/images/gallary_2.png'
 import gallery3 from '@/assets/images/gallary_3.png'
-import gallery4 from '@/assets/images/gallary_4.png'
+import gallery4 from '@/assets/images/gallary_4.jpg'
 
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
@@ -293,6 +321,9 @@ import 'swiper/css/navigation'
 import Footer from '@/components/Footer.vue'
 import { getCakesByCategory } from '@/services/cakeService'
 import { BASE_URL } from '@/config/constants'
+
+import classicCakeImg from '@/assets/images/classicCakeImg.jpg'
+import themedCakeImg from '@/assets/images/themeCakeImg.jpg'
 
 export default {
   data() {
@@ -311,6 +342,8 @@ export default {
       gallery4,
       cakes: [],
       BASE_URL,
+      themedCakeImg,
+      classicCakeImg,
     }
   },
   components: {
@@ -339,123 +372,114 @@ export default {
 <style>
 .hero-section {
   position: relative;
-  min-height: 90vh;
-  background: #fff3d6;
+  /* min-height:calc(100vh - 88px); */
+  background: linear-gradient(135deg, #fcf8f5 0%, #f7efea 100%);
   overflow: hidden;
-}
-
-/* Background stripes */
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-
-  background-image: repeating-linear-gradient(
-    90deg,
-    #fdf8ec,
-    #fff1d8,
-    8px,
-    transparent 8px,
-    transparent 120px
-  );
-
-  z-index: 0;
+  padding: 60px 0 70px;
 }
 
 .hero-container {
   position: relative;
   z-index: 2;
-
   width: 90%;
   max-width: 1400px;
-
   margin: auto;
   padding-top: 80px;
-
+  min-height: inherit;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 80px;
 }
 
 .hero-content {
-  width: 45%;
+  width: 48%;
 }
 
 .subtitle {
-  color: #5ed3d1;
-  font-size: 1.8rem;
-  font-family: cursive;
+  color: var(--secondary);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
 .hero-content h1 {
-  font-size: 5rem;
-  line-height: 1.1;
-  color: #4b3f3f;
-  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 1.08;
+  color: var(--primary);
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+.hero-content h1 span {
+  color: var(--secondary);
 }
 
 .description {
-  margin-top: 30px;
-  max-width: 550px;
-  font-size: 1.3rem;
-  color: #666;
+  max-width: 500px;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--text-light);
 }
 
 .hero-buttons {
   display: flex;
   gap: 25px;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
-.btn-yellow,
-.btn-blue {
-  border: none;
-  padding: 18px 45px;
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 16px 34px;
   border-radius: 40px;
-  font-size: 1.2rem;
   font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+
   color: white;
-  cursor: pointer;
+}
+.btn-primary:hover {
+  background: var(--secondary);
 }
 
-.btn-yellow {
-  background: #ffc43d;
+.btn-secondary {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
 }
 
-.btn-blue {
-  background: #5ed3d1;
+.btn-secondary:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-3px);
 }
 
 .hero-images {
-  width: 48%;
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-}
-
-.image-card:nth-child(1) {
-  height: 230px;
-}
-
-.image-card:nth-child(2) {
-  height: 320px;
-}
-
-.image-card:nth-child(3) {
-  height: 320px;
-  margin-top: -60px;
-}
-
-.image-card:nth-child(4) {
-  height: 260px;
+  gap: 32px;
 }
 
 .image-card {
-  height: 260px;
-  border-radius: 20px;
   overflow: hidden;
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 18px 40px rgba(23, 20, 20, 0.12);
+  transition: 0.35s;
+}
+
+.image-card:hover {
+  transform: translateY(-8px);
 }
 
 .image-card img {
@@ -463,396 +487,516 @@ export default {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: 0.5s;
 }
 
-.circle-bg {
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  border: 12px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-  right: -150px;
-  top: 120px;
+.image-card:hover img {
+  transform: scale(1.05);
 }
 
-/* about */
-
-.about-section {
-  background: #f7f7f7;
-  padding: 120px 0;
+.image-card:nth-child(1) {
+  height: 200px;
 }
 
-.about-container {
-  width: 85%;
-  max-width: 1400px;
-  margin: auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 80px;
+.image-card:nth-child(2) {
+  height: 220px;
 }
 
-/* .about-image {
-  flex: 1;
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
-.about-image {
-  flex: 1;
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  min-height: 550px;
-}
-.croissant-bg {
-  position: absolute;
-
-  width: 420px;
-  height: 420px;
-
-  background: url('@/assets/images/cross-bg.png') center center no-repeat;
-  background-size: contain;
-
-  z-index: 1;
+.image-card:nth-child(3) {
+  height: 220px;
+  /* margin-top: 60px; */
 }
 
-.croissant {
-  position: relative;
-
-  width: 620px;
-
-  z-index: 2;
-
-  animation: swing 4s ease-in-out infinite;
-  transform-origin: top center;
+.image-card:nth-child(4) {
+  height: 200px;
+  margin-top: 20px;
 }
 
-.circle-bg-about {
-  position: absolute;
-
-  width: 500px;
-  height: 350px;
-
-  background: #71d4d2;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.about-image img {
-  position: relative;
-  z-index: 2;
-
-  width: 600px;
-  max-width: 100%;
-}
-
-.about-content {
-  flex: 1;
-}
-
-.about-subtitle {
-  color: #71d4d2;
-  font-size: 1.5rem;
-  font-family: cursive;
-  margin-bottom: 20px;
-}
-
-.about-content h2 {
-  font-size: 4rem;
-  line-height: 1.2;
-  color: #564743;
-  margin-bottom: 30px;
-}
-
-.about-content span {
-  color: #ffc43d;
-}
-
-.about-description {
-  color: #666;
-  font-size: 1.25rem;
-  line-height: 1.8;
-  margin-bottom: 40px;
-}
-
-.about-btn {
-  background: #ffc43d;
-  color: white;
-  border: none;
-  border-radius: 40px;
-  padding: 18px 40px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.about-image img {
-  animation: swing 4s ease-in-out infinite;
-  transform-origin: top center;
-}
-
-@keyframes swing {
-  0% {
-    transform: rotate(-4deg);
-  }
-
-  50% {
-    transform: rotate(4deg);
-  }
-
-  100% {
-    transform: rotate(-4deg);
-  }
-}
-
-/* menu */
-.menu-section {
-  background: #f8f8f8;
-  padding: 120px 0;
-}
-
-.menu-header {
-  text-align: center;
-  margin-bottom: 100px;
-}
-
-.menu-subtitle {
-  color: #5ed3d1;
-  font-size: 1.6rem;
-  font-family: cursive;
-  margin-bottom: 15px;
-}
-
-.menu-header h2 {
-  font-size: 4rem;
-  color: #564743;
-}
-
-.menu-cards {
-  width: 85%;
-  margin: auto;
-
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-}
-
-.menu-card {
-  width: 380px;
-  border-radius: 20px;
-  padding: 120px 35px 50px;
-  position: relative;
-  text-align: center;
-}
-
-.desserts {
-  background: #dff2f3;
-}
-
-.cakes {
-  background: #f7dfea;
-}
-
-.custom {
-  background: #f8efd3;
-}
-
-.card-image {
-  position: absolute;
-  top: -90px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 180px;
-  height: 180px;
-
-  background: white;
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-}
-
-.card-image img {
-  width: 140px;
-  transition: 0.4s;
-}
-
-.menu-card:hover .card-image img {
-  transform: scale(1.08) rotate(5deg);
-}
-
-.menu-card h3 {
-  font-size: 2.5rem;
-  margin-bottom: 25px;
-  color: #564743;
-}
-
-.menu-card p {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #666;
-  min-height: 120px;
-}
-
-.menu-card button {
-  border: none;
-  background: white;
-  color: #5ed3d1;
-
-  padding: 15px 40px;
-  border-radius: 40px;
-
-  font-size: 1.2rem;
-  font-weight: 600;
-
-  margin-top: 25px;
-  cursor: pointer;
-}
-
-/* featured cakes */
 /* ==========================
    FEATURED CAKES
 ========================== */
 
 .featured-cakes-section {
-  padding: 120px 0;
-  background: #ffffff;
+  padding: 20px 0;
+  background: #fcf8f5;
 }
 
 .section-title {
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 60px;
 }
 
 .section-title h2 {
-  font-size: 4rem;
-  color: #564743;
-  margin-bottom: 15px;
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+  color: var(--primary);
+  margin-bottom: 12px;
 }
 
 .section-title p {
-  color: #5ed3d1;
-  font-size: 1.5rem;
-  font-family: cursive;
+  color: var(--secondary);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  font-family: inherit;
 }
 
-.cake-swiper {
-  width: 92%;
-  margin: auto;
-  overflow: visible;
+.cake-content {
+  padding: 20px;
 }
 
 .cake-card {
-  text-align: center;
-  transition: 0.3s;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(23, 20, 20, 0.08);
+  transition: 0.35s;
+  text-align: left;
 }
 
 .cake-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(23, 20, 20, 0.14);
 }
 
 .cake-card img {
   width: 100%;
-  height: 320px;
+  height: 260px;
   object-fit: cover;
-  border-radius: 20px;
 }
 
 .cake-card h3 {
-  margin-top: 20px;
-  color: #4b3f3f;
-  font-size: 1.5rem;
+  color: var(--primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .cake-card p {
-  color: #5ed3d1;
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-top: 10px;
+  color: var(--secondary);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
 .cake-btn {
-  margin-top: 20px;
+  margin-top: 12px;
+  width: 100%;
   border: none;
-  background: #ffc43d;
-  color: white;
-  padding: 12px 30px;
+  padding: 12px;
   border-radius: 30px;
+  background: var(--primary);
+  color: white;
   font-weight: 600;
-  cursor: pointer;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .cake-btn:hover {
-  background: #5ed3d1;
+  background: var(--secondary);
 }
 
-/* ==========================
-   SWIPER ARROWS
-========================== */
+.cake-swiper {
+  width: min(92%, 1400px);
+  margin: auto;
+  /* overflow: hidden; */
+}
+
+.swiper-wrapper-custom {
+  position: relative;
+  width: min(92%, 1400px);
+  margin: auto;
+}
+
+.custom-prev,
+.custom-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 10px 25px rgba(23, 20, 20, 0.12);
+  cursor: pointer;
+  z-index: 50;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-prev {
+  left: -50px;
+}
+
+.custom-next {
+  right: -50px;
+}
+
+.custom-prev i,
+.custom-next i {
+  font-size: 1.5rem;
+
+  color: var(--primary);
+
+  transition: 0.3s;
+}
+
+.custom-prev:hover,
+.custom-next:hover {
+  background: var(--primary);
+
+  transform: translateY(-50%) scale(1.05);
+}
+
+.custom-prev:hover i,
+.custom-next:hover i {
+  color: white;
+}
 
 .swiper-button-next,
 .swiper-button-prev {
-  width: 80px !important;
-  height: 80px !important;
+  display: none !important;
+}
 
+/* about */
+
+.about-section {
+  background: var(--background);
+  padding: 100px 0;
+}
+
+.about-container {
+  width: min(92%, 1400px);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: 0 18px 40px rgba(23, 20, 20, 0.12);
+}
+
+/* .about-image img:hover {
+  transform: scale(1.02);
+} */
+
+.about-subtitle {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.about-content h2 {
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+  color: var(--primary);
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+
+.about-content span {
+  color: var(--secondary);
+}
+
+.about-description {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  margin-bottom: 15px;
+  max-width: 560px;
+}
+
+.about-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px;
+}
+
+.about-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.about-features i {
+  color: var(--secondary);
+  font-size: 1.15rem;
+}
+
+.about-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 15px 36px;
+  border-radius: 40px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 992px) {
+  .about-container {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+
+    text-align: center;
+  }
+
+  .about-description {
+    margin-inline: auto;
+  }
+
+  .about-features li {
+    justify-content: center;
+  }
+
+  .about-image img {
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 70px 0;
+  }
+
+  .about-content h2 {
+    font-size: 2.4rem;
+  }
+
+  .about-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .about-image img {
+    max-width: 100%;
+  }
+}
+
+/* menu */
+/* ===================================
+   SHOP BY CATEGORY
+=================================== */
+
+.menu-section {
+  background: white;
+  padding: 80px 0;
+}
+
+.menu-header {
+  text-align: center;
+  margin-bottom: 90px;
+}
+
+.menu-subtitle {
+  color: var(--secondary);
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+  font-size: 0.95rem;
+
+  font-weight: 700;
+
+  margin-bottom: 18px;
+}
+
+.menu-header h2 {
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+
+  color: var(--primary);
+
+  line-height: 1.2;
+}
+
+/* ---------- Cards Container ---------- */
+
+.menu-cards {
+  width: min(92%, 1100px);
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 60px;
+}
+
+/* ---------- Card ---------- */
+
+.menu-card {
+  background: var(--background);
+
+  border-radius: 24px;
+
+  padding: 120px 35px 40px;
+
+  position: relative;
+
+  text-align: center;
+
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
+
+  transition: all 0.35s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-10px);
+
+  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.15);
+}
+
+.card-image {
+  position: absolute;
+  top: -85px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170px;
+  height: 170px;
   background: white;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(23, 20, 20, 0.12);
+}
 
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+.card-image img {
+  width: 130px;
+  transition: transform 0.35s ease;
+}
+
+.menu-card:hover .card-image img {
+  transform: scale(1.08);
+}
+
+.menu-card h3 {
+  color: var(--primary);
+
+  font-size: 2rem;
+
+  margin-bottom: 20px;
+}
+
+.menu-card p {
+  color: var(--text-light);
+
+  font-size: 1rem;
+
+  line-height: 1.8;
+
+  margin-bottom: 35px;
+
+  min-height: 90px;
+}
+
+/* ---------- Button ---------- */
+
+.menu-btn {
+  display: inline-flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-decoration: none;
+
+  padding: 14px 32px;
+
+  border-radius: 35px;
+
+  background: var(--primary);
+
+  color: white;
+
+  font-weight: 600;
 
   transition: all 0.3s ease;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 30px !important;
-  font-weight: 700;
-  color: #5ed3d1;
+.menu-btn:hover {
+  background: var(--secondary);
+
+  transform: translateY(-2px);
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background: #5ed3d1;
-  transform: scale(1.08);
+/* ---------- Responsive ---------- */
+
+@media (max-width: 992px) {
+  .menu-cards {
+    grid-template-columns: 1fr;
+
+    gap: 120px;
+  }
+
+  .menu-card {
+    max-width: 500px;
+
+    width: 100%;
+
+    margin: auto;
+  }
 }
 
-.swiper-button-next:hover::after,
-.swiper-button-prev:hover::after {
-  color: white;
-}
+@media (max-width: 768px) {
+  .menu-section {
+    padding: 70px 0;
+  }
 
-.swiper-button-prev {
-  left: -10px !important;
-}
+  .menu-header {
+    margin-bottom: 70px;
+  }
 
-.swiper-button-next {
-  right: -10px !important;
-}
+  .card-image {
+    width: 150px;
+    height: 150px;
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  color: #ffc43d;
-}
+    top: -75px;
+  }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background: #ffc43d;
-}
-.swiper-button-next,
-.swiper-button-prev {
-  color: #ffc43d !important;
+  .card-image img {
+    width: 115px;
+  }
+
+  .menu-card {
+    padding: 110px 30px 35px;
+  }
+
+  .menu-card h3 {
+    font-size: 1.7rem;
+  }
+
+  .menu-btn {
+    width: 100%;
+  }
 }
 
 /* ==========================
@@ -860,13 +1004,12 @@ export default {
 ========================== */
 
 .gallery-section {
-  background: #fff6df;
-  padding: 120px 0;
+  background: white;
+  padding: 100px 0;
 }
 
 .gallery-container {
-  width: 90%;
-  max-width: 1450px;
+  width: min(92%, 1450px);
 
   margin: auto;
 
@@ -874,108 +1017,118 @@ export default {
 
   grid-template-columns: 1fr 0.7fr 0.9fr;
 
-  grid-template-rows: 300px 320px;
+  grid-template-rows: auto 320px;
 
   gap: 25px;
+
+  align-items: stretch;
 }
 
-/* LEFT CARD */
+/* ===================================
+   LEFT CONTENT
+=================================== */
 
 .gallery-content {
-  background: linear-gradient(135deg, #ffc43d, #ffb300);
-
-  border-radius: 20px;
-
-  padding: 45px;
-
+  background: linear-gradient(135deg, var(--primary), #322b2b);
+  border-radius: 28px;
+  padding: 60px 45px;
   color: white;
-
-  display: flex;
-
-  flex-direction: column;
-
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-
-  transition: 0.4s;
+  justify-content: center;
+  box-shadow: 0 18px 40px rgba(23, 20, 20, 0.12);
+  transition: all 0.35s ease;
 }
 
 .gallery-content:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+}
+
+.gallery-subtitle {
+  color: rgba(255, 255, 255, 0.75);
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+
+  margin-bottom: 18px;
 }
 
 .gallery-content h2 {
-  font-size: 2.8rem;
-  line-height: 1.2;
-  margin-bottom: 25px;
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+  line-height: 1.15;
   color: white;
+  margin-bottom: 25px;
+}
+
+.gallery-content span {
+  color: var(--secondary);
 }
 
 .gallery-content p {
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
-  line-height: 1.8;
-  margin-top: 10px;
+  line-height: 1.9;
+  margin-bottom: 35px;
 }
 
-.gallery-btn {
-  margin-top: 30px;
+.gallery-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  width: 240px;
+.gallery-features li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
-  border: none;
-
-  padding: 18px;
-
-  border-radius: 40px;
-
-  background: #5ed3d1;
+  margin-bottom: 28px;
 
   color: white;
 
-  font-size: 1.2rem;
+  font-size: 1rem;
 
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: 0.3s;
+  font-weight: 500;
 }
 
-.gallery-btn:hover {
-  background: white;
+.gallery-features i {
+  color: var(--secondary);
 
-  color: #5ed3d1;
+  font-size: 1.1rem;
 }
-
-/* IMAGE BOXES */
 
 .gallery-image {
-  border-radius: 20px;
-
   overflow: hidden;
+
+  border-radius: 28px;
+
+  box-shadow: 0 18px 40px rgba(23, 20, 20, 0.1);
 
   position: relative;
 }
 
 .gallery-image img {
   width: 100%;
+
   height: 100%;
 
   object-fit: cover;
 
-  transition: 0.5s;
-}
-
-.gallery-image img {
-  transition: 0.5s;
+  transition: transform 0.4s ease;
 }
 
 .gallery-image:hover img {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
-/* Layout */
+/* ===================================
+   GRID LAYOUT
+=================================== */
 
 .image-one {
   grid-column: 2;
@@ -997,113 +1150,119 @@ export default {
   grid-row: 2;
 }
 
-.shape {
-  position: absolute;
-  border-radius: 50px;
-  opacity: 0.35;
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width: 1100px) {
+  .gallery-container {
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-rows: auto 260px 260px;
+
+    gap: 20px;
+  }
+
+  .gallery-content {
+    grid-column: 1 / -1;
+  }
+
+  .image-one {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .image-two {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .image-three {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .image-four {
+    grid-column: 2;
+    grid-row: 3;
+  }
 }
 
-.gallery-section {
-  position: relative;
-  overflow: hidden;
-}
+@media (max-width: 768px) {
+  .gallery-section {
+    padding: 70px 0;
+  }
 
-.shape1 {
-  width: 90px;
-  height: 18px;
-  background: #5ed3d1;
+  .gallery-container {
+    grid-template-columns: 1fr;
 
-  left: -20px;
-  top: 180px;
+    grid-template-rows: auto repeat(4, 260px);
+  }
 
-  transform: rotate(-40deg);
-}
+  .gallery-content,
+  .image-one,
+  .image-two,
+  .image-three,
+  .image-four {
+    grid-column: auto;
+    grid-row: auto;
+  }
 
-.shape2 {
-  width: 70px;
-  height: 18px;
-  background: #ff8aa1;
+  .gallery-content {
+    text-align: center;
+  }
 
-  right: 40px;
-  top: 60px;
+  .gallery-features li {
+    justify-content: center;
+  }
 
-  transform: rotate(40deg);
-}
-
-.shape3 {
-  width: 70px;
-  height: 18px;
-  background: #ffd166;
-
-  left: 80px;
-  top: 220px;
-
-  transform: rotate(45deg);
-}
-
-.shape4 {
-  width: 80px;
-  height: 18px;
-  background: #9be564;
-
-  right: 80px;
-  bottom: 80px;
-
-  transform: rotate(-35deg);
+  .gallery-content h2 {
+    font-size: 2.3rem;
+  }
 }
 
 /*==========================
       TESTIMONIALS
 ===========================*/
 
+/* ===================================
+   TESTIMONIALS
+=================================== */
+
 .testimonial-section {
-  padding: 120px 0;
-  background: white;
-  position: relative;
-}
-
-/* Decorative top & bottom border */
-
-.testimonial-section::before,
-.testimonial-section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: radial-gradient(circle at 20px 0, #fff6df 22px, transparent 23px) repeat-x;
-  background-size: 40px 20px;
-}
-
-.testimonial-section::before {
-  top: 0;
-}
-
-.testimonial-section::after {
-  bottom: 0;
-  transform: rotate(180deg);
+  background: var(--background);
+  padding: 100px 0;
 }
 
 .testimonial-heading {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 70px;
 }
 
 .testimonial-heading p {
-  color: #5ed3d1;
-  font-size: 1.5rem;
-  font-family: cursive;
-  margin-bottom: 15px;
+  color: var(--secondary);
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+  font-size: 0.95rem;
+
+  font-weight: 700;
+
+  margin-bottom: 18px;
 }
 
 .testimonial-heading h2 {
-  font-size: 4rem;
-  color: #564743;
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+
+  color: var(--primary);
+
+  line-height: 1.2;
 }
 
 .testimonial-container {
-  width: 90%;
-  max-width: 1400px;
+  width: min(92%, 1400px);
 
   margin: auto;
 
@@ -1111,33 +1270,45 @@ export default {
 
   grid-template-columns: repeat(3, 1fr);
 
-  gap: 40px;
+  gap: 35px;
 }
 
 .testimonial-card {
-  padding: 30px;
+  background: white;
 
-  border-right: 2px dashed #9ce7e6;
+  border-radius: 24px;
+
+  padding: 35px;
+
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
 
   transition: 0.35s;
 }
 
-.testimonial-card:last-child {
-  border-right: none;
+.testimonial-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.14);
 }
 
-.testimonial-card:hover {
-  transform: translateY(-10px);
+.stars {
+  color: #f4b400;
+
+  font-size: 1rem;
+
+  margin-bottom: 20px;
+
+  letter-spacing: 2px;
 }
 
 .review {
-  color: #666;
+  color: var(--text-light);
 
-  font-size: 1.2rem;
+  line-height: 1.9;
 
-  line-height: 1.8;
+  font-size: 1rem;
 
-  min-height: 180px;
+  min-height: 150px;
 }
 
 .customer {
@@ -1145,15 +1316,15 @@ export default {
 
   align-items: center;
 
-  gap: 20px;
+  gap: 18px;
 
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .customer img {
-  width: 90px;
+  width: 65px;
 
-  height: 90px;
+  height: 65px;
 
   border-radius: 50%;
 
@@ -1161,14 +1332,30 @@ export default {
 }
 
 .customer h3 {
-  color: #564743;
+  color: var(--primary);
 
-  font-size: 1.8rem;
+  font-size: 1.1rem;
 
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .customer span {
-  color: #999;
+  color: var(--secondary);
+
+  font-size: 0.9rem;
+}
+
+/* Tablet */
+
+@media (max-width: 992px) {
+  .testimonial-container {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    max-width: 600px;
+
+    margin: auto;
+  }
 }
 </style>

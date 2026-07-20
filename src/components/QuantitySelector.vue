@@ -1,13 +1,22 @@
 <template>
   <div class="quantity-section">
-    <h3>Quantity</h3>
+    <div class="section-header">
+      <h3>Quantity</h3>
+      <p>Select how many cakes you'd like to order.</p>
+    </div>
 
-    <div class="quantity-box">
-      <button @click="decrease">−</button>
+    <div class="quantity-card">
+      <button class="qty-btn" @click="decrease" :disabled="modelValue <= 1">
+        <i class="bi bi-dash-lg"></i>
+      </button>
 
-      <span>{{ modelValue }}</span>
+      <div class="quantity-value">
+        {{ modelValue }}
+      </div>
 
-      <button @click="increase">+</button>
+      <button class="qty-btn" @click="increase">
+        <i class="bi bi-plus-lg"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -38,41 +47,133 @@ export default {
 </script>
 
 <style scoped>
+/*==========================
+      QUANTITY SECTION
+===========================*/
+
 .quantity-section {
-  margin-top: 30px;
+  margin: 40px 0;
 }
 
-.quantity-section h3 {
-  color: #564743;
-  margin-bottom: 15px;
+/*==========================
+      HEADER
+===========================*/
+
+.section-header {
+  margin-bottom: 18px;
 }
 
-.quantity-box {
-  display: flex;
+.section-header h3 {
+  color: var(--primary);
+
+  font-size: 1.5rem;
+
+  margin-bottom: 6px;
+}
+
+.section-header p {
+  color: var(--text-light);
+
+  font-size: 0.95rem;
+}
+
+/*==========================
+      CARD
+===========================*/
+
+.quantity-card {
+  display: inline-flex;
+
   align-items: center;
-  gap: 20px;
+
+  gap: 18px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 12px 18px;
+
+  box-shadow: 0 12px 30px rgba(23, 20, 20, 0.08);
 }
 
-.quantity-box button {
-  width: 45px;
-  height: 45px;
+/*==========================
+      BUTTON
+===========================*/
+
+.qty-btn {
+  width: 48px;
+
+  height: 48px;
+
   border: none;
+
   border-radius: 50%;
-  background: #ffc43d;
+
+  background: var(--primary);
+
   color: white;
-  font-size: 1.3rem;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   cursor: pointer;
+
   transition: 0.3s;
 }
 
-.quantity-box button:hover {
-  background: #5ed3d1;
+.qty-btn:hover:not(:disabled) {
+  background: var(--secondary);
+
+  transform: translateY(-2px);
 }
 
-.quantity-box span {
-  font-size: 1.3rem;
-  font-weight: bold;
-  min-width: 30px;
+.qty-btn:disabled {
+  background: #ddd;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+/*==========================
+      VALUE
+===========================*/
+
+.quantity-value {
+  min-width: 40px;
+
   text-align: center;
+
+  font-size: 1.4rem;
+
+  font-weight: 700;
+
+  color: var(--primary);
+}
+
+/*==========================
+      RESPONSIVE
+===========================*/
+
+@media (max-width: 768px) {
+  .quantity-card {
+    padding: 10px 16px;
+
+    gap: 14px;
+  }
+
+  .qty-btn {
+    width: 42px;
+
+    height: 42px;
+  }
+
+  .quantity-value {
+    font-size: 1.2rem;
+  }
 }
 </style>

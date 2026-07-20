@@ -1,41 +1,71 @@
 <template>
   <div class="cart-item">
-    <img :src="`${BASE_URL}${item.cake.imgUrl}`" :alt="item.cake.name" class="cake-image" />
-
     <div class="details">
-      <h3>{{ item.cake.name }}</h3>
+      <div class="top">
+        <div>
+          <h3>{{ item.cake.name }}</h3>
 
-      <p class="weight">
-        {{ formatWeight(item.weight) }}
-        • Qty {{ item.quantity }}
-      </p>
+          <p class="weight">
+            {{ formatWeight(item.weight) }}
 
-      <div v-if="item.sponge || item.filling || item.frosting" class="customization">
-        <small>Customization</small>
+            • Quantity {{ item.quantity }}
+          </p>
+        </div>
 
-        <p v-if="item.sponge">
-          {{ item.sponge.name }}
-        </p>
-
-        <p v-if="item.filling">
-          {{ item.filling.name }}
-        </p>
-
-        <p v-if="item.frosting">
-          {{ item.frosting.name }}
-        </p>
+        <h2 class="price">${{ calculatePrice(item).toFixed(2) }}</h2>
       </div>
 
-      <p v-if="item.message" class="message">"{{ item.message }}"</p>
+      <div
+        v-if="item.sponge || item.filling || item.frosting || item.toppings?.length || item.message"
+        class="customization"
+      >
+        <span class="badge"> Customizations </span>
 
-      <div class="bottom">
-        <h4>${{ calculatePrice(item).toFixed(2) }}</h4>
+        <div class="ingredients">
+          <div v-if="item.sponge" class="ingredient">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Sponge: {{ item.sponge.name }}</span>
+          </div>
 
-        <div class="buttons">
-          <button class="edit" @click="showEdit = true">Edit</button>
+          <div v-if="item.filling" class="ingredient">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Filling: {{ item.filling.name }}</span>
+          </div>
+          <div v-if="item.frosting" class="ingredient">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Frosting: {{ item.frosting.name }}</span>
+          </div>
 
-          <button class="remove" @click="remove">Remove</button>
+          <div v-for="topping in item.toppings" :key="topping.id" class="ingredient">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>Topping: {{ topping.name }}</span>
+          </div>
+
+          <div v-if="item.message" class="ingredient">
+            <i class="bi bi-chat-left-text-fill"></i>
+            <span>{{ item.message }}</span>
+          </div>
         </div>
+      </div>
+
+      <div v-if="item.message" class="message">
+        <i class="bi bi-chat-left-text"></i>
+
+        "{{ item.message }}"
+      </div>
+
+      <div class="actions">
+        <button class="edit" @click="showEdit = true">
+          <i class="bi bi-pencil"></i>
+
+          Edit
+        </button>
+
+        <button class="remove" @click="remove">
+          <i class="bi bi-trash"></i>
+
+          Remove
+        </button>
       </div>
     </div>
 
@@ -44,10 +74,7 @@
 </template>
 
 <script>
-import { BASE_URL } from '@/config/constants'
-
 import { removeItem } from '@/services/cartService'
-
 import EditCartModal from '@/modal/EditCartModal.vue'
 
 export default {
@@ -63,8 +90,6 @@ export default {
 
   data() {
     return {
-      BASE_URL,
-
       showEdit: false,
     }
   },
@@ -123,129 +148,205 @@ export default {
 </script>
 
 <style scoped>
+/*==========================
+      CART ITEM
+===========================*/
+
 .cart-item {
-  display: flex;
-
-  gap: 18px;
-
-  padding: 20px 0;
-
-  border-bottom: 1px solid #eee;
+  background: white;
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(23, 20, 20, 0.08);
+  margin-bottom: 18px;
 }
 
-.cake-image {
-  width: 90px;
-
-  height: 90px;
-
-  object-fit: cover;
-
-  border-radius: 12px;
-}
+/*==========================
+      DETAILS
+===========================*/
 
 .details {
   flex: 1;
 }
 
-.details h3 {
-  margin: 0;
-
-  color: #564743;
-
-  font-size: 20px;
-}
-
-.weight {
-  margin: 10px 0;
-
-  color: #666;
-
-  font-size: 14px;
-}
-
-.customization {
-  margin-top: 10px;
-}
-
-.customization small {
-  color: #5ed3d1;
-
-  font-weight: 600;
-}
-
-.customization p {
-  margin: 4px 0;
-
-  font-size: 14px;
-
-  color: #666;
-}
-
-.message {
-  margin-top: 12px;
-
-  color: #888;
-
-  font-style: italic;
-}
-
-.bottom {
-  margin-top: 18px;
-
+.top {
   display: flex;
 
   justify-content: space-between;
 
-  align-items: center;
+  align-items: flex-start;
+
+  gap: 20px;
 }
 
-.bottom h4 {
-  margin: 0;
+.details h3 {
+  color: var(--primary);
 
-  color: #5ed3d1;
+  font-size: 1.7rem;
 
-  font-size: 22px;
+  margin-bottom: 8px;
 }
 
-.buttons {
+.weight {
+  color: var(--text-light);
+}
+
+.price {
+  color: var(--secondary);
+
+  font-size: 2rem;
+}
+
+/*==========================
+      CUSTOMIZATION
+===========================*/
+
+.customization {
+  margin-top: 25px;
+}
+
+.badge {
+  display: inline-block;
+
+  color: var(--secondary);
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
+}
+
+.chips {
   display: flex;
+
+  flex-wrap: wrap;
 
   gap: 10px;
 }
 
-.edit {
-  background: #5ed3d1;
+.chip {
+  background: #faf7f4;
 
-  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
-  border: none;
+  border-radius: 40px;
 
   padding: 8px 16px;
 
-  border-radius: 20px;
+  color: var(--primary);
 
-  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.remove {
-  background: #ff6b6b;
+/*==========================
+      MESSAGE
+===========================*/
 
-  color: white;
+.message {
+  margin-top: 20px;
 
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  background: #faf7f4;
+
+  padding: 14px 18px;
+
+  border-radius: 16px;
+
+  color: var(--text-light);
+
+  font-style: italic;
+}
+
+.message i {
+  color: var(--secondary);
+}
+
+/*==========================
+      ACTIONS
+===========================*/
+
+.actions {
+  margin-top: 25px;
+
+  display: flex;
+
+  gap: 15px;
+}
+
+.actions button {
   border: none;
 
-  padding: 8px 16px;
+  border-radius: 40px;
 
-  border-radius: 20px;
+  padding: 12px 22px;
 
   cursor: pointer;
+
+  font-weight: 600;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  transition: 0.3s;
+}
+
+.edit {
+  background: var(--primary);
+
+  color: white;
 }
 
 .edit:hover {
-  background: #49c2bf;
+  background: var(--secondary);
+}
+
+.remove {
+  background: #d9534f;
+
+  color: white;
 }
 
 .remove:hover {
-  background: #ff4f4f;
+  background: #b52d2a;
+}
+
+/*==========================
+      RESPONSIVE
+===========================*/
+
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+  }
+
+  .cake-image {
+    width: 100%;
+
+    height: 260px;
+  }
+
+  .top {
+    flex-direction: column;
+  }
+
+  .price {
+    font-size: 1.8rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+
+    justify-content: center;
+  }
 }
 </style>

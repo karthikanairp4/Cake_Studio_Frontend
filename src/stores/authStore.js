@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { jwtDecode } from 'jwt-decode'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -9,8 +10,21 @@ export const useAuthStore = defineStore('auth', {
     },
   }),
 
+  // getters: {
+  //   isLoggedIn: (state) => !!state.token,
+  // },
   getters: {
-    isLoggedIn: (state) => !!state.token,
+    isLoggedIn: (state) => {
+      if (!state.token) return false
+
+      try {
+        const decoded = jwtDecode(state.token)
+
+        return decoded.exp * 1000 > Date.now()
+      } catch {
+        return false
+      }
+    },
   },
 
   actions: {

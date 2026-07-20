@@ -1,6 +1,4 @@
 <template>
-  <NavBar />
-
   <section class="register-page">
     <div class="register-card">
       <h1>Create Account</h1>
@@ -30,8 +28,6 @@
       </p>
     </div>
   </section>
-
-  <Footer />
 </template>
 
 <script>

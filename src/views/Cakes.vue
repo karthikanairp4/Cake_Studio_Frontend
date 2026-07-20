@@ -1,18 +1,18 @@
 <template>
   <NavBar />
-
   <section class="cakes-page">
     <div class="page-header">
-      <h1>Our Cakes</h1>
-
-      <p>Freshly baked classics for every celebration.</p>
+      <p class="subtitle">OUR COLLECTION</p>
+      <h1>Classic Cakes</h1>
+      <p class="description">
+        Timeless flavours handcrafted with premium ingredients, perfect for birthdays,
+        anniversaries, and every celebration.
+      </p>
     </div>
-
     <div class="cakes-grid">
       <CakeCard v-for="cake in cakes" :key="cake.id" :cake="cake" />
     </div>
   </section>
-
   <Footer />
 </template>
 
@@ -48,37 +48,48 @@ export default {
 
 <style scoped>
 .cakes-page {
-  width: 90%;
-
-  max-width: 1450px;
-
-  margin: 70px auto;
+  width: min(92%, 1400px);
+  margin: auto;
+  padding: 50px 0 100px;
 }
 
 .page-header {
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto 45px;
+}
 
-  margin-bottom: 70px;
+.subtitle {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .page-header h1 {
-  font-size: 4rem;
+  color: var(--primary);
 
-  color: #564743;
+  font-size: clamp(2.6rem, 4vw, 4rem);
+
+  margin-bottom: 20px;
 }
 
-.page-header p {
-  margin-top: 15px;
-
-  color: #666;
-
-  font-size: 1.2rem;
+.description {
+  max-width: 620px;
+  margin: auto;
 }
+
+/* ===========================
+        GRID
+=========================== */
 
 .cakes-grid {
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 
   gap: 35px;
 }

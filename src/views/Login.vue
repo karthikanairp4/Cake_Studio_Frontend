@@ -1,6 +1,4 @@
 <template>
-  <NavBar />
-
   <section class="login-page">
     <div class="login-card">
       <h1>Welcome Back</h1>
@@ -29,7 +27,6 @@
     </div>
   </section>
 
-  <Footer />
 </template>
 
 <script>

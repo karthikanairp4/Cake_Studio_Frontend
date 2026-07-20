@@ -1,0 +1,29 @@
+:root {
+  --primary: #171414;
+  --secondary: #c9a66b;
+  --secondary-hover: #b28f58;
+
+  --background: #f9f3f3;
+  --white: #ffffff;
+
+  --text: #171414;
+  --text-light: #666666;
+
+  --border: #e6e0dd;
+
+  --heading-font: 'Cormorant Garamond', serif;
+  --body-font: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--body-font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font);
+}

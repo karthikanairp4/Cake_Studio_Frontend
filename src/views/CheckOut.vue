@@ -2,51 +2,61 @@
   <NavBar />
 
   <section class="checkout-page">
-    <div class="container">
-      <!-- Left Side -->
-      <div class="checkout-form">
-        <h2>Checkout</h2>
+    <div class="checkout-container">
+      <div class="left-column">
+        <div class="card">
+          <h1>Checkout</h1>
 
-        <h3>Shipping Address</h3>
+          <p class="subtitle">Complete your order securely.</p>
+        </div>
 
-        <input v-model="checkout.street" type="text" placeholder="Street Address" />
+        <div class="card">
+          <h3>Shipping Address</h3>
 
-        <input v-model="checkout.city" type="text" placeholder="City" />
+          <input v-model="checkout.street" placeholder="Street Address" />
 
-        <input v-model="checkout.province" type="text" placeholder="Province" />
+          <input v-model="checkout.city" placeholder="City" />
 
-        <input v-model="checkout.postalCode" type="text" placeholder="Postal Code" />
+          <div class="two-column">
+            <input v-model="checkout.province" placeholder="Province" />
 
-        <h3>Payment Details</h3>
+            <input v-model="checkout.postalCode" placeholder="Postal Code" />
+          </div>
+        </div>
 
-        <StripePayment :buyNowItem="buyNowItem" @payment-success="paymentSuccess" />
+        <div class="card">
+          <h3>Payment</h3>
+
+          <StripePayment :buyNowItem="buyNowItem" @payment-success="paymentSuccess" />
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <h2>Order Summary</h2>
+
+        <div class="summary-item" v-for="item in cart" :key="item.id">
+          <div>
+            <h4>{{ item.cake.name }}</h4>
+
+            <small>
+              {{ item.quantity }}
+              ×
+              {{ item.weight }} Kg
+            </small>
+          </div>
+
+          <strong> ${{ calculatePrice(item).toFixed(2) }} </strong>
+        </div>
+
+        <hr />
+
+        <div class="summary-total">
+          <span>Total</span>
+
+          <strong> ${{ total.toFixed(2) }} </strong>
+        </div>
       </div>
     </div>
-
-    <!-- Right Side -->
-    <div class="summary">
-      <h2>Order Summary</h2>
-
-      <div class="item" v-for="item in cart" :key="item.id">
-        <span>
-          {{ item.cake.name }}
-          × {{ item.quantity }}
-        </span>
-
-        <strong>${{ calculatePrice(item).toFixed(2) }}</strong>
-      </div>
-
-      <hr />
-
-      <div class="total">
-        <span>Total</span>
-
-        <strong>${{ total.toFixed(2) }}</strong>
-      </div>
-
-      <!-- <button @click="placeOrder">Place Order</button> -->
-    </div>
-    <!-- </div> -->
   </section>
   <PaymentSuccessModal
     v-if="showSuccessModal"
@@ -142,88 +152,194 @@ export default {
 
 <style scoped>
 .checkout-page {
-  background: #fff8e8;
-  min-height: 90vh;
-  padding: 50px;
+  background: var(--background);
+
+  padding: 80px 0;
+
+  min-height: 100vh;
 }
 
-.container {
-  display: flex;
+.checkout-container {
+  width: min(1200px, 92%);
+
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns: 2fr 1fr;
+
   gap: 40px;
-  align-items: flex-start;
+
+  align-items: start;
 }
 
-.checkout-form {
-  flex: 2;
+.left-column {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+}
+
+.card {
   background: white;
-  border-radius: 15px;
+
+  border-radius: 24px;
+
   padding: 35px;
+
+  box-shadow: 0 15px 40px rgba(23, 20, 20, 0.06);
 }
 
-.checkout-form h2 {
+.card h1 {
+  margin: 0;
+
+  color: var(--primary);
+
+  font-size: 2.4rem;
+}
+
+.subtitle {
+  margin-top: 10px;
+
+  color: var(--text-light);
+}
+
+.card h3 {
   margin-bottom: 25px;
-  color: #564743;
+
+  color: var(--primary);
 }
 
-.checkout-form h3 {
-  margin-top: 30px;
-  color: #564743;
-}
-
-.checkout-form input {
+.card input {
   width: 100%;
-  padding: 14px;
-  margin-top: 15px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-}
 
-.row {
-  display: flex;
-  gap: 15px;
-}
+  height: 55px;
 
-.summary {
-  width: 350px;
-  background: white;
-  border-radius: 15px;
-  padding: 30px;
-  position: sticky;
-  top: 20px;
-}
+  padding: 0 18px;
 
-.summary h2 {
-  margin-bottom: 25px;
-  color: #564743;
-}
+  border-radius: 14px;
 
-.item {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
+  border: 1px solid #e7e7e7;
 
-.total {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-  font-size: 1.3rem;
-}
+  margin-bottom: 18px;
 
-button {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 30px;
-  background: #ffc43d;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
   transition: 0.3s;
+
+  box-sizing: border-box;
+
+  font-size: 15px;
 }
 
-button:hover {
-  background: #f5b400;
+.card input:focus {
+  outline: none;
+
+  border-color: var(--secondary);
+
+  box-shadow: 0 0 0 4px rgba(209, 170, 103, 0.15);
+}
+
+.two-column {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+/* Summary */
+
+.summary-card {
+  position: sticky;
+
+  top: 120px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 30px;
+
+  box-shadow: 0 15px 40px rgba(23, 20, 20, 0.06);
+}
+
+.summary-card h2 {
+  margin-top: 0;
+
+  color: var(--primary);
+
+  margin-bottom: 25px;
+}
+
+.summary-item {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  margin-bottom: 22px;
+}
+
+.summary-item h4 {
+  margin: 0;
+
+  color: var(--primary);
+
+  font-size: 16px;
+}
+
+.summary-item small {
+  color: var(--text-light);
+}
+
+.summary-item strong {
+  color: var(--secondary);
+
+  font-size: 17px;
+}
+
+.summary-card hr {
+  border: none;
+
+  border-top: 1px solid #ececec;
+
+  margin: 25px 0;
+}
+
+.summary-total {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.summary-total span {
+  font-size: 18px;
+
+  color: var(--primary);
+}
+
+.summary-total strong {
+  font-size: 2rem;
+
+  color: var(--secondary);
+}
+
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    position: relative;
+
+    top: 0;
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

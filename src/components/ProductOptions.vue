@@ -1,5 +1,10 @@
 <template>
   <div class="options-card">
+    <div class="section-title">
+      <h3>Customize Your Cake</h3>
+      <p>Choose your preferred options before adding to your cart.</p>
+    </div>
+
     <!-- CLASSIC CAKE -->
 
     <template v-if="cake.category === 'CLASSIC'">
@@ -21,10 +26,10 @@
         <label>Sponge</label>
 
         <select v-model="selected.sponge">
-          <option disabled value="">Select Sponge</option>
+          <option disabled value="">Choose Sponge</option>
 
           <option v-for="item in sponges" :key="item.id" :value="item">
-            {{ item.name }} (+${{ item.price }})
+            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
@@ -33,10 +38,10 @@
         <label>Filling</label>
 
         <select v-model="selected.filling">
-          <option disabled value="">Select Filling</option>
+          <option disabled value="">Choose Filling</option>
 
           <option v-for="item in fillings" :key="item.id" :value="item">
-            {{ item.name }} (+${{ item.price }})
+            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
@@ -45,13 +50,14 @@
         <label>Frosting</label>
 
         <select v-model="selected.frosting">
-          <option disabled value="">Select Frosting</option>
+          <option disabled value="">Choose Frosting</option>
 
           <option v-for="item in frostings" :key="item.id" :value="item">
-            {{ item.name }} (+${{ item.price }})
+            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
+
       <div class="option">
         <label>Weight</label>
 
@@ -63,7 +69,7 @@
       </div>
     </template>
 
-    <!-- COMMON -->
+    <!-- MESSAGE -->
 
     <div class="option">
       <label>Cake Message</label>
@@ -71,9 +77,11 @@
       <input
         type="text"
         maxlength="40"
-        placeholder="Happy Birthday John"
+        placeholder="Happy Birthday Emma"
         v-model="selected.message"
       />
+
+      <small>{{ selected.message.length }}/40 characters</small>
     </div>
   </div>
 </template>
@@ -115,23 +123,57 @@ export default {
 </script>
 
 <style scoped>
+/*==========================
+      OPTIONS CARD
+===========================*/
+
 .options-card {
   background: white;
 
+  border-radius: 28px;
+
   padding: 35px;
 
-  border-radius: 20px;
-
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
 }
 
+/*==========================
+      TITLE
+===========================*/
+
+.section-title {
+  margin-bottom: 35px;
+}
+
+.section-title h3 {
+  color: var(--primary);
+
+  font-size: 1.7rem;
+
+  margin-bottom: 8px;
+}
+
+.section-title p {
+  color: var(--text-light);
+
+  line-height: 1.7;
+}
+
+/*==========================
+      OPTION
+===========================*/
+
 .option {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .option:last-child {
   margin-bottom: 0;
 }
+
+/*==========================
+      LABEL
+===========================*/
 
 label {
   display: block;
@@ -140,30 +182,78 @@ label {
 
   font-weight: 600;
 
-  color: #564743;
+  color: var(--primary);
 }
+
+/*==========================
+      INPUTS
+===========================*/
 
 select,
 input {
   width: 100%;
 
-  padding: 15px;
+  padding: 16px 18px;
 
-  border-radius: 10px;
+  background: #faf7f4;
 
-  border: 1px solid #ddd;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  border-radius: 14px;
 
   font-size: 1rem;
 
   transition: 0.3s;
+
+  color: var(--primary);
+}
+
+select {
+  cursor: pointer;
 }
 
 select:focus,
 input:focus {
   outline: none;
 
-  border-color: #5ed3d1;
+  border-color: var(--secondary);
 
-  box-shadow: 0 0 10px rgba(94, 211, 209, 0.2);
+  box-shadow: 0 0 0 4px rgba(209, 170, 103, 0.15);
+}
+
+/*==========================
+      PLACEHOLDER
+===========================*/
+
+input::placeholder {
+  color: #999;
+}
+
+/*==========================
+      SMALL TEXT
+===========================*/
+
+small {
+  display: block;
+
+  margin-top: 8px;
+
+  color: var(--text-light);
+
+  font-size: 0.85rem;
+}
+
+/*==========================
+      RESPONSIVE
+===========================*/
+
+@media (max-width: 768px) {
+  .options-card {
+    padding: 25px;
+  }
+
+  .section-title h3 {
+    font-size: 1.5rem;
+  }
 }
 </style>

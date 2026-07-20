@@ -1,121 +1,133 @@
 <template>
-  <div class="overlay">
-    <div class="modal" v-if="editedItem">
+  <div class="overlay" v-if="editedItem">
+    <div class="modal">
       <!-- Header -->
+
       <div class="header">
-        <h2>Edit Cart Item</h2>
+        <div>
+          <p class="subtitle">Edit Your Cake</p>
+          <h2>{{ editedItem.cake.name }}</h2>
+        </div>
 
         <button class="close-btn" @click="$emit('close')">✕</button>
       </div>
 
-      <!-- Cake -->
-      <div class="cake-info">
-        <img :src="`${BASE_URL}${editedItem.cake.imgUrl}`" :alt="editedItem.cake.name" />
+      <!-- Body -->
 
-        <div class="cake-details">
-          <h3>{{ editedItem.cake.name }}</h3>
+      <div class="body">
+        <!-- LEFT COLUMN -->
 
-          <p class="base-price">
-            Base Price
-            <strong>${{ editedItem.cake.basePrice.toFixed(2) }}</strong>
-          </p>
-        </div>
-      </div>
+        <div class="left-column">
+          <div class="cake-image-card">
+            <img :src="`${BASE_URL}${editedItem.cake.imgUrl}`" :alt="editedItem.cake.name" />
+          </div>
 
-      <!-- Form -->
+          <div class="price-card">
+            <span>Base Price</span>
 
-      <div class="form">
-        <!-- Weight -->
+            <h3>${{ editedItem.cake.basePrice.toFixed(2) }}</h3>
 
-        <div class="form-group">
-          <label>Weight</label>
+            <small> Before customizations </small>
+          </div>
 
-          <select v-model="selectedOptions.weight">
-            <option v-for="weight in weights" :key="weight" :value="weight">
-              {{ weight }}
-            </option>
-          </select>
+          <div class="summary-card">
+            <h4>Estimated Total</h4>
+
+            <div class="summary-price">${{ totalPrice.toFixed(2) }}</div>
+
+            <small> Including selected customizations </small>
+          </div>
         </div>
 
-        <!-- Theme Options -->
+        <!-- RIGHT COLUMN -->
 
-        <template v-if="editedItem.cake.category === 'THEMED'">
+        <div class="right-column">
+          <!-- Weight -->
+
           <div class="form-group">
-            <label>Sponge</label>
+            <label>Weight</label>
 
-            <select v-model="selectedOptions.sponge">
-              <option v-for="item in options.sponges" :key="item.id" :value="item">
-                {{ item.name }}
+            <select v-model="selectedOptions.weight">
+              <option v-for="weight in weights" :key="weight" :value="weight">
+                {{ weight }}
               </option>
             </select>
           </div>
 
+          <!-- Sponge -->
+
+          <template v-if="editedItem.cake.category === 'THEMED'">
+            <div class="form-group">
+              <label>Sponge</label>
+
+              <select v-model="selectedOptions.sponge">
+                <option v-for="item in options.sponges" :key="item.id" :value="item">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Filling -->
+
+            <div class="form-group">
+              <label>Filling</label>
+
+              <select v-model="selectedOptions.filling">
+                <option :value="null">No Filling</option>
+
+                <option v-for="item in options.fillings" :key="item.id" :value="item">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Frosting -->
+
+            <div class="form-group">
+              <label>Frosting</label>
+
+              <select v-model="selectedOptions.frosting">
+                <option v-for="item in options.frostings" :key="item.id" :value="item">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </template>
+
+          <!-- Message -->
+
           <div class="form-group">
-            <label>Filling</label>
+            <label>Message on Cake</label>
 
-            <select v-model="selectedOptions.filling">
-              <option :value="null">No Filling</option>
-
-              <option v-for="item in options.fillings" :key="item.id" :value="item">
-                {{ item.name }}
-              </option>
-            </select>
+            <textarea
+              rows="4"
+              maxlength="40"
+              placeholder="Happy Birthday..."
+              v-model="selectedOptions.message"
+            />
           </div>
+
+          <!-- Quantity -->
 
           <div class="form-group">
-            <label>Frosting</label>
+            <label>Quantity</label>
 
-            <select v-model="selectedOptions.frosting">
-              <option v-for="item in options.frostings" :key="item.id" :value="item">
-                {{ item.name }}
-              </option>
-            </select>
+            <div class="quantity-box">
+              <button class="qty-btn" @click="decrease">−</button>
+
+              <span class="qty-value">
+                {{ quantity }}
+              </span>
+
+              <button class="qty-btn" @click="increase">+</button>
+            </div>
           </div>
-        </template>
-
-        <!-- Message -->
-
-        <div class="form-group">
-          <label>Message</label>
-
-          <textarea
-            rows="3"
-            maxlength="40"
-            placeholder="Happy Birthday..."
-            v-model="selectedOptions.message"
-          />
-        </div>
-
-        <!-- Quantity -->
-
-        <div class="form-group">
-          <label>Quantity</label>
-
-          <div class="qty-wrapper">
-            <button class="qty-btn" @click="decrease">−</button>
-
-            <span class="qty-value">
-              {{ quantity }}
-            </span>
-
-            <button class="qty-btn" @click="increase">+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Summary -->
-
-      <div class="summary">
-        <div class="summary-row">
-          <span>Estimated Total</span>
-
-          <strong> ${{ totalPrice.toFixed(2) }} </strong>
         </div>
       </div>
 
       <!-- Footer -->
 
-      <div class="footer-buttons">
+      <div class="footer">
         <button class="cancel-btn" @click="$emit('close')">Cancel</button>
 
         <button class="save-btn" @click="save">Save Changes</button>
@@ -182,16 +194,19 @@ export default {
 
         this.selectedOptions.weight = this.getWeightLabel(item.weight)
 
-        this.selectedOptions.sponge = item.sponge
-
-        this.selectedOptions.filling = item.filling
-
-        this.selectedOptions.frosting = item.frosting
-
         this.selectedOptions.message = item.message || ''
 
         if (item.cake.category === 'THEMED') {
           this.options = await getAllCakeOptions()
+
+          this.selectedOptions.sponge =
+            this.options.sponges.find((s) => s.id === item.sponge?.id) ?? null
+
+          this.selectedOptions.filling =
+            this.options.fillings.find((f) => f.id === item.filling?.id) ?? null
+
+          this.selectedOptions.frosting =
+            this.options.frostings.find((f) => f.id === item.frosting?.id) ?? null
         }
       },
     },
@@ -230,12 +245,16 @@ export default {
       switch (weight) {
         case 0.5:
           return '500 g'
+
         case 1:
           return '1 Kg'
+
         case 2:
           return '2 Kg'
+
         case 3:
           return '3 Kg'
+
         default:
           return '1 Kg'
       }
@@ -245,16 +264,22 @@ export default {
       try {
         const dto = {
           quantity: this.quantity,
+
           weight: this.weightMap[this.selectedOptions.weight],
+
           message: this.selectedOptions.message,
+
           sponge_id: this.selectedOptions.sponge?.id ?? null,
+
           filling_id: this.selectedOptions.filling?.id ?? null,
+
           frosting_id: this.selectedOptions.frosting?.id ?? null,
         }
 
         await updateCart(this.editedItem.id, dto)
 
         this.$emit('updated')
+
         this.$emit('close')
       } catch (error) {
         console.error(error)
@@ -268,26 +293,31 @@ export default {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(23, 20, 20, 0.45);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   z-index: 9999;
+
+  backdrop-filter: blur(4px);
 }
 
+/* Modal */
+
 .modal {
-  width: 600px;
-  max-height: 90vh;
+  width: 760px;
+  max-width: 95vw;
+  max-height: 92vh;
 
   overflow-y: auto;
 
-  background: #fff;
+  background: var(--white);
 
-  border-radius: 18px;
+  border-radius: 26px;
 
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 30px 70px rgba(23, 20, 20, 0.15);
 
   animation: popup 0.25s ease;
 }
@@ -295,7 +325,7 @@ export default {
 @keyframes popup {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(30px);
   }
 
   to {
@@ -311,28 +341,36 @@ export default {
   justify-content: space-between;
   align-items: center;
 
-  padding: 22px 28px;
+  padding: 28px 32px;
 
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #eee;
+}
 
-  position: sticky;
-  top: 0;
+.subtitle {
+  margin: 0;
 
-  background: white;
-  z-index: 10;
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+
+  color: var(--secondary);
+
+  font-weight: 600;
 }
 
 .header h2 {
-  margin: 0;
+  margin: 6px 0 0;
 
-  color: #564743;
+  color: var(--primary);
 
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .close-btn {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
 
   border: none;
 
@@ -340,66 +378,100 @@ export default {
 
   background: #f5f5f5;
 
-  font-size: 20px;
-
   cursor: pointer;
 
   transition: 0.25s;
 }
 
 .close-btn:hover {
-  background: #ececec;
+  background: var(--secondary);
+
+  color: white;
 }
 
-/* Cake */
+/* Body */
 
-.cake-info {
+.body {
+  display: grid;
+
+  grid-template-columns: 280px 1fr;
+
+  gap: 35px;
+
+  padding: 32px;
+}
+
+/* Left */
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+
+  gap: 22px;
+}
+
+.cake-image-card {
+  background: var(--background);
+
+  padding: 20px;
+
+  border-radius: 22px;
+}
+
+.cake-image-card img {
+  width: 100%;
+  border-radius: 18px;
+
+  display: block;
+}
+
+.price-card,
+.summary-card {
+  background: var(--background);
+
+  border-radius: 20px;
+
+  padding: 20px;
+}
+
+.price-card span,
+.summary-card h4 {
+  color: var(--text-light);
+
+  margin: 0;
+}
+
+.price-card h3 {
+  margin: 10px 0;
+
+  color: var(--secondary);
+
+  font-size: 2rem;
+}
+
+.summary-price {
+  margin: 12px 0;
+
+  font-size: 2.4rem;
+
+  font-weight: bold;
+
+  color: var(--secondary);
+}
+
+.summary-card small,
+.price-card small {
+  color: var(--text-light);
+}
+
+/* Right */
+
+.right-column {
   display: flex;
 
+  flex-direction: column;
+
   gap: 20px;
-
-  align-items: center;
-
-  padding: 25px 28px;
-}
-
-.cake-info img {
-  width: 100px;
-  height: 100px;
-
-  object-fit: cover;
-
-  border-radius: 12px;
-
-  border: 1px solid #eee;
-}
-
-.cake-details h3 {
-  margin: 0;
-
-  color: #564743;
-}
-
-.base-price {
-  margin-top: 10px;
-
-  color: #777;
-}
-
-.base-price strong {
-  color: #5ed3d1;
-
-  font-size: 1.2rem;
-}
-
-/* Form */
-
-.form {
-  padding: 0 28px 10px;
-}
-
-.form-group {
-  margin-bottom: 20px;
 }
 
 .form-group label {
@@ -407,23 +479,24 @@ export default {
 
   margin-bottom: 8px;
 
-  font-weight: 600;
+  color: var(--primary);
 
-  color: #564743;
+  font-weight: 600;
 }
 
 select,
-input,
 textarea {
   width: 100%;
 
-  padding: 12px 14px;
+  padding: 14px 16px;
+
+  border-radius: 14px;
 
   border: 1px solid #ddd;
 
-  border-radius: 10px;
-
   font-size: 15px;
+
+  background: white;
 
   transition: 0.25s;
 
@@ -435,40 +508,39 @@ textarea {
 }
 
 select:focus,
-input:focus,
 textarea:focus {
   outline: none;
 
-  border-color: #5ed3d1;
+  border-color: var(--secondary);
 
-  box-shadow: 0 0 0 3px rgba(94, 211, 209, 0.15);
+  box-shadow: 0 0 0 4px rgba(209, 170, 103, 0.15);
 }
 
 /* Quantity */
 
-.qty-wrapper {
+.quantity-box {
   display: inline-flex;
 
   align-items: center;
 
   border: 1px solid #ddd;
 
-  border-radius: 50px;
+  border-radius: 999px;
 
   overflow: hidden;
 }
 
 .qty-btn {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
 
   border: none;
 
-  background: #5ed3d1;
+  background: white;
 
-  color: white;
+  color: var(--secondary);
 
-  font-size: 20px;
+  font-size: 22px;
 
   cursor: pointer;
 
@@ -476,100 +548,78 @@ textarea:focus {
 }
 
 .qty-btn:hover {
-  background: #42bebc;
+  background: var(--secondary);
+
+  color: white;
 }
 
 .qty-value {
-  width: 60px;
+  width: 70px;
 
   text-align: center;
 
   font-size: 18px;
 
-  font-weight: 600;
-}
+  font-weight: bold;
 
-/* Summary */
-
-.summary {
-  margin: 10px 28px 20px;
-
-  background: #fafafa;
-
-  border: 1px solid #ececec;
-
-  border-radius: 12px;
-
-  padding: 18px 22px;
-}
-
-.summary-row {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  font-size: 18px;
-}
-
-.summary-row strong {
-  color: #5ed3d1;
-
-  font-size: 24px;
+  color: var(--primary);
 }
 
 /* Footer */
 
-.footer-buttons {
-  position: sticky;
-
-  bottom: 0;
-
-  background: white;
-
-  padding: 22px 28px;
-
-  border-top: 1px solid #ececec;
-
+.footer {
   display: flex;
 
   justify-content: flex-end;
 
   gap: 15px;
+
+  padding: 28px 32px;
+
+  border-top: 1px solid #eee;
 }
 
 .cancel-btn,
 .save-btn {
-  padding: 13px 28px;
+  height: 52px;
 
-  border: none;
+  padding: 0 30px;
 
-  border-radius: 30px;
+  border-radius: 999px;
 
   cursor: pointer;
 
-  font-size: 15px;
-
   transition: 0.25s;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
 }
 
 .cancel-btn {
-  background: #ececec;
+  border: 1px solid var(--secondary);
+
+  background: white;
+
+  color: var(--secondary);
 }
 
 .cancel-btn:hover {
-  background: #d9d9d9;
+  background: var(--secondary);
+
+  color: white;
 }
 
 .save-btn {
-  background: #5ed3d1;
+  border: none;
+
+  background: var(--secondary);
 
   color: white;
 }
 
 .save-btn:hover {
-  background: #43b9b7;
+  background: var(--secondary-hover);
 }
 
 /* Scrollbar */
@@ -582,5 +632,26 @@ textarea:focus {
   background: #d5d5d5;
 
   border-radius: 20px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+  }
+
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+  }
 }
 </style>

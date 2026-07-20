@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '@/config/constants'
+import { useAuthStore } from '@/stores/authStore'
 
 const api = axios.create({ baseURL: BASE_URL })
 
@@ -12,5 +13,21 @@ api.interceptors.request.use((config) => {
 
   return config
 })
+
+api.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    if (error.response?.status === 401) {
+      const auth = useAuthStore()
+
+      auth.logout()
+
+      window.location.href = '/login'
+    }
+
+    return Promise.reject(error)
+  },
+)
 
 export default api

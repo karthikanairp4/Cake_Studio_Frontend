@@ -2,7 +2,9 @@
   <nav class="navbar">
     <div class="nav-container">
       <!-- Logo -->
-      <router-link class="brand" to="/"> The Cake Studio </router-link>
+      <router-link class="brand" to="/">
+        <img :src="logo" alt="logo" class="logo" />
+      </router-link>
 
       <!-- Center Menu -->
       <ul class="nav-menu">
@@ -29,10 +31,10 @@
 
       <!-- Right Side -->
       <div class="nav-actions">
-        <button class="icon-btn">🔍</button>
+        <button class="search-btn"><i class="bi bi-search"></i></button>
 
-        <div class="cart-wrapper" @click="showCart = true">
-          <button class="icon-btn">🛒</button>
+        <div class="cart-wrapper" @click="goToBag">
+          <button class="cart-btn"><i class="bi bi-bag"></i></button>
         </div>
 
         <!-- Show Login -->
@@ -40,7 +42,7 @@
 
         <!-- Show Account -->
         <div v-else class="user-menu" ref="userMenu" @click.stop>
-          <button class="profile-btn" @click="toggleMenu">👤 Account ▼</button>
+          <button class="profile-btn" @click="toggleMenu"><i class="bi bi-person"></i></button>
 
           <div class="dropdown" v-if="showUserMenu">
             <router-link to="/profile" @click="closeDropdown"> My Profile </router-link>
@@ -53,17 +55,13 @@
       </div>
     </div>
   </nav>
-  <CartDrawer :show="showCart" @close="showCart = false" />
 </template>
 <script>
-import CartDrawer from '@/components/CartDrawer.vue'
 import { useAuthStore } from '@/stores/authStore'
+import logo from '@/assets/images/pbakes.png'
 
 export default {
-  components: {
-    CartDrawer,
-  },
-
+  components: {},
   setup() {
     const auth = useAuthStore()
 
@@ -72,8 +70,8 @@ export default {
 
   data() {
     return {
-      showCart: false,
       showUserMenu: false,
+      logo,
     }
   },
 
@@ -86,6 +84,9 @@ export default {
   },
 
   methods: {
+    goToBag() {
+      this.$router.push('/bag')
+    },
     toggleMenu() {
       this.showUserMenu = !this.showUserMenu
     },
@@ -114,21 +115,30 @@ export default {
 </script>
 <style>
 .navbar {
-  padding: 20px 40px;
-  background-color: #fff7e6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #e8e0da;
 }
 
 .nav-container {
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 30px;
 }
 
-.brand {
-  font-size: 1.8rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #4b3f3f;
+.logo {
+  height: 72px;
+  width: auto;
+  display: block;
 }
 
 .nav-menu {
@@ -141,21 +151,45 @@ export default {
 
 .nav-menu a {
   text-decoration: none;
-  color: #4b3f3f;
+  color: var(--primary);
   font-weight: 500;
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 25px;
 }
 
-.icon-btn {
+.search-btn,
+.cart-btn,
+.profile-btn {
   border: none;
   background: transparent;
-  font-size: 1.2rem;
   cursor: pointer;
+  color: var(--primary);
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.search-btn {
+  font-size: 1.5rem;
+}
+
+.search-btn:hover,
+.cart-btn:hover,
+.profile-btn:hover {
+  color: var(--secondary-hover);
+  transform: scale(1.08);
+}
+
+.cart-btn {
+  font-size: 1.5rem;
+}
+
+.profile-btn {
+  font-size: 1.8rem;
 }
 
 .cart-wrapper {
@@ -167,21 +201,17 @@ export default {
   position: relative;
 }
 
-.profile-btn {
+/* .profile-btn {
   display: flex;
-  align-items: center;
+  align-items: center; 
   gap: 8px;
-
   background: transparent;
   border: none;
-
   cursor: pointer;
-
   color: #564743;
-
   font-size: 1rem;
   font-weight: 600;
-}
+} */
 
 .dropdown {
   position: absolute;
@@ -234,21 +264,15 @@ export default {
 
 .login-btn {
   text-decoration: none;
-
-  background: #ffc43d;
-
+  background: var(--secondary);
   color: white;
-
   padding: 10px 20px;
-
-  border-radius: 25px;
-
+  /* border-radius: 25px; */
   font-weight: 600;
-
   transition: 0.3s;
 }
 
 .login-btn:hover {
-  background: #f5b400;
+  background: var(--secondary-hover);
 }
 </style>

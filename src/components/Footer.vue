@@ -4,8 +4,12 @@
     <section class="newsletter">
       <div class="newsletter-content">
         <div class="newsletter-title">
-          <h2>Subscribe</h2>
-          <p>Get updates about new cakes, seasonal offers and exclusive discounts.</p>
+          <h2>Join Our Sweet Community</h2>
+
+          <p>
+            Receive exclusive offers, seasonal cake collections, and the latest handcrafted
+            creations.
+          </p>
         </div>
 
         <div class="newsletter-form">
@@ -22,39 +26,53 @@
       <!-- Logo -->
 
       <div class="footer-logo">
-        <h2>The Cake Studio</h2>
+        <h2>Paprika Bakes</h2>
 
-        <p>Freshly baked happiness made with love.</p>
+        <p>
+          Handcrafted cakes made with premium ingredients for birthdays, weddings, anniversaries and
+          every special celebration.
+        </p>
       </div>
 
-      <!-- Links -->
+      <!-- Navigation -->
 
       <div class="footer-links">
+        <h3>Explore</h3>
+
         <router-link to="/"> Home </router-link>
 
-        <router-link to="/cakes"> Cakes </router-link>
-
-        <router-link to="/make-cake"> Make Your Own Cake </router-link>
+        <router-link to="/classic-cakes"> Classic Cakes </router-link>
 
         <router-link to="/theme-cakes"> Themed Cakes </router-link>
 
-        <router-link to="/contact"> Contact </router-link>
+        <router-link to="/contact-us"> Contact Us </router-link>
       </div>
 
       <!-- Social -->
 
       <div class="footer-social">
-        <a href="#"> Facebook </a>
+        <h3>Follow Us</h3>
 
-        <a href="#"> Instagram </a>
+        <a href="#">
+          <i class="bi bi-facebook"></i>
+          Facebook
+        </a>
 
-        <a href="#"> YouTube </a>
+        <a href="#">
+          <i class="bi bi-instagram"></i>
+          Instagram
+        </a>
+
+        <a href="#">
+          <i class="bi bi-pinterest"></i>
+          Pinterest
+        </a>
       </div>
     </div>
 
     <hr />
 
-    <div class="copyright">© {{ currentYear }} The Cake Studio. All Rights Reserved.</div>
+    <div class="copyright">© {{ currentYear }} Paprika Bakes. All Rights Reserved.</div>
   </footer>
 </template>
 
@@ -71,52 +89,53 @@ export default {
 <style scoped>
 .footer {
   margin-top: 120px;
-
-  background: white;
+  background: var(--background);
 }
 
-/* ==========================
+/* ==================================
       NEWSLETTER
-========================== */
+================================== */
 
 .newsletter {
-  width: 90%;
-
-  max-width: 1450px;
-
+  width: min(92%, 1400px);
   margin: auto;
-
   transform: translateY(-60px);
 }
 
 .newsletter-content {
-  background: #5ed3d1;
-
-  border-radius: 25px;
-
-  padding: 55px;
-
+  background: var(--primary);
+  border-radius: 30px;
+  padding: 60px;
   display: flex;
-
-  justify-content: space-between;
-
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  text-align: center;
+  gap: 30px;
+  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.15);
+}
 
-  gap: 40px;
+.newsletter-title {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .newsletter-title h2 {
   color: white;
-
-  font-size: 4rem;
-
-  margin-bottom: 15px;
+  font-size: clamp(2.8rem, 4vw, 4rem);
+  margin-bottom: 18px;
+  text-align: center;
 }
 
 .newsletter-title p {
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
+  /* text-align: center; */
+  line-height: 1.8;
 
-  font-size: 1.15rem;
+  max-width: 520px;
 }
 
 .newsletter-form {
@@ -130,7 +149,9 @@ export default {
 
   overflow: hidden;
 
-  max-width: 700px;
+  max-width: 600px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .newsletter-form input {
@@ -138,23 +159,21 @@ export default {
 
   border: none;
 
-  padding: 22px 30px;
-
-  font-size: 1.1rem;
-
   outline: none;
+
+  padding: 18px 28px;
+
+  font-size: 1rem;
 }
 
 .newsletter-form button {
-  background: #ffc43d;
-
-  color: white;
-
   border: none;
 
-  padding: 0 45px;
+  padding: 0 38px;
 
-  font-size: 1.1rem;
+  background: var(--secondary);
+
+  color: white;
 
   font-weight: 600;
 
@@ -164,138 +183,150 @@ export default {
 }
 
 .newsletter-form button:hover {
-  background: #ffb300;
+  background: #8c6642;
 }
 
-/* ==========================
-      FOOTER
-========================== */
-
 .footer-container {
-  width: 90%;
-
-  max-width: 1450px;
-
+  width: min(92%, 1400px);
   margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px;
+  align-items: start;
+  padding-bottom: 25px;
+}
 
+.footer-links,
+.footer-social {
   display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-self: center;
+}
 
-  justify-content: space-between;
+.footer-logo {
+  justify-self: start;
+}
 
-  align-items: center;
-
-  padding-bottom: 40px;
+.footer-logo h2,
+.footer-logo p {
+  text-align: left;
 }
 
 .footer-logo h2 {
-  color: #ffc43d;
-
-  font-size: 3rem;
-
-  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 18px;
+  text-align: left;
 }
 
 .footer-logo p {
-  color: #666;
+  color: var(--text-light);
+  line-height: 1.9;
+  max-width: 380px;
+  text-align: left;
 }
 
-.footer-links {
-  display: flex;
-
-  gap: 35px;
+.footer-links h3,
+.footer-social h3 {
+  color: var(--primary);
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 1.15rem;
 }
 
-.footer-links a {
-  text-decoration: none;
-
-  color: #564743;
-
-  font-weight: 600;
-
-  transition: 0.3s;
-}
-
-.footer-links a:hover {
-  color: #5ed3d1;
-}
-
-.footer-social {
-  display: flex;
-
-  gap: 25px;
-}
-
+.footer-links a,
 .footer-social a {
   text-decoration: none;
-
-  color: #ffc43d;
-
-  font-weight: 600;
-
+  text-align: left;
+  color: var(--text-light);
   transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+.footer-links a:hover,
 .footer-social a:hover {
-  color: #5ed3d1;
+  color: var(--secondary);
+}
+
+.footer-social i {
+  font-size: 1.1rem;
 }
 
 hr {
-  width: 90%;
-
+  width: min(92%, 1400px);
   margin: auto;
-
   border: none;
-
-  border-top: 2px solid #5ed3d1;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .copyright {
   text-align: center;
-
-  padding: 35px;
-
-  color: #666;
+  padding: 28px;
+  color: var(--text-light);
+  font-size: 0.95rem;
 }
-
-/* ==========================
-      RESPONSIVE
-========================== */
 
 @media (max-width: 992px) {
   .newsletter-content {
     flex-direction: column;
+    text-align: center;
   }
 
-  .footer-container {
-    flex-direction: column;
-
-    gap: 35px;
-  }
-
-  .footer-links {
-    flex-wrap: wrap;
-
-    justify-content: center;
+  .newsletter-title p {
+    margin: auto;
+    text-align: center;
   }
 
   .newsletter-form {
     width: 100%;
+
+    max-width: 100%;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+
+    gap: 45px;
+  }
+
+  .footer-links,
+  .footer-social {
+    align-items: center;
   }
 }
 
 @media (max-width: 768px) {
-  .newsletter-title h2 {
-    font-size: 2.8rem;
+  .newsletter {
+    transform: none;
+
+    margin-bottom: 50px;
+  }
+
+  .newsletter-content {
+    padding: 35px 25px;
   }
 
   .newsletter-form {
     flex-direction: column;
 
-    border-radius: 20px;
+    border-radius: 18px;
+  }
+
+  .newsletter-form input {
+    padding: 18px;
   }
 
   .newsletter-form button {
     padding: 18px;
+  }
+
+  .footer {
+    margin-top: 60px;
   }
 }
 </style>
