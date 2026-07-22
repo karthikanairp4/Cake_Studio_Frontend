@@ -35,7 +35,7 @@
 
       <!-- Empty -->
       <div v-if="!loading && keyword.length >= 2 && cakes.length === 0" class="status">
-        🍰 No cakes found
+        No cakes found
       </div>
     </div>
   </div>
