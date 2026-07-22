@@ -8,32 +8,43 @@
       </div>
 
       <div class="section">
-        <p>
-          <strong>Status</strong>
+        <h3>Order Information</h3>
 
+        <p>
+          <strong>Status:</strong>
           {{ order.status }}
         </p>
 
         <p>
-          <strong>Payment</strong>
-
+          <strong>Payment:</strong>
           {{ order.paymentStatus }}
         </p>
 
         <p>
-          <strong>Date</strong>
-
+          <strong>Order Date:</strong>
           {{ formatDate(order.orderDate) }}
+        </p>
+
+        <p v-if="order.pickupDate">
+          <strong>Pickup Date:</strong>
+          {{ formatDateOnly(order.pickupDate) }}
+        </p>
+
+        <p v-if="order.pickupTime">
+          <strong>Pickup Time:</strong>
+          {{ order.pickupTime }}
+        </p>
+
+        <p v-if="order.notes">
+          <strong>Special Instructions:</strong>
+          {{ order.notes }}
         </p>
       </div>
 
       <div class="section">
-        <h3>Shipping Address</h3>
-
+        <h3>Customer Address</h3>
         <p>{{ order.street }}</p>
-
         <p>{{ order.city }}</p>
-
         <p>{{ order.province }}</p>
 
         <p>{{ order.postalCode }}</p>
@@ -99,6 +110,14 @@ export default {
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleString()
+    },
+
+    formatDateOnly(date) {
+      return new Date(date).toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
     },
   },
 }
@@ -168,5 +187,25 @@ export default {
   margin-top: 25px;
 
   text-align: right;
+}
+
+.pickup-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  color: var(--text);
+
+  font-size: 0.95rem;
+}
+
+.pickup-info div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pickup-info i {
+  color: var(--secondary);
 }
 </style>

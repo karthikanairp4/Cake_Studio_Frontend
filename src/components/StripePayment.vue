@@ -13,16 +13,17 @@ import { loadStripe } from '@stripe/stripe-js'
 import { createPaymentIntent, createBuyNowPaymentIntent } from '@/services/checkout'
 import { STRIPE_PUB_KEY } from '@/config/constants'
 
-const stripePromise = loadStripe(STRIPE_PUB_KEY)
+// const stripePromise = loadStripe(STRIPE_PUB_KEY)
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 export default {
   emits: ['payment-success'],
-  props: {
-    buyNowItem: {
-      type: Object,
-      default: null,
-    },
-  },
+  // props: {
+  //   buyNowItem: {
+  //     type: Object,
+  //     default: null,
+  //   },
+  // },
   data() {
     return {
       stripe: null,
@@ -32,11 +33,16 @@ export default {
   },
 
   async mounted() {
+    console.log('StripePayment mounted')
+    const mode = sessionStorage.getItem('checkoutMode')
+    console.log('mode:', mode)
     this.stripe = await stripePromise
     // const payment = await createPaymentIntent()
     let payment
-    if (this.buyNowItem) {
-      payment = await createBuyNowPaymentIntent(this.buyNowItem)
+    if (mode === 'BUY_NOW') {
+      const buyNowItem = JSON.parse(sessionStorage.getItem('buyNow'))
+      console.log('Sending to backend:', buyNowItem)
+      payment = await createBuyNowPaymentIntent(buyNowItem)
     } else {
       payment = await createPaymentIntent()
     }

@@ -12,6 +12,7 @@ export async function createPaymentIntent() {
 }
 
 export async function createBuyNowPaymentIntent(data) {
+  console.log('data inside js', data)
   const response = await api.post(`${BASE_URL}/create-buy-now-payment-intent`, data)
   return response.data
 }

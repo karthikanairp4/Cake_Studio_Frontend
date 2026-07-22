@@ -2,11 +2,11 @@
   <nav class="navbar">
     <div class="nav-container">
       <!-- Logo -->
-      <router-link class="brand" to="/">
-        <img :src="logo" alt="logo" class="logo" />
+      <router-link class="brand" to="/" @click="closeMobileMenu">
+        <img :src="logo" alt="Paprika Bakes" class="logo" />
       </router-link>
 
-      <!-- Center Menu -->
+      <!-- Desktop Menu -->
       <ul class="nav-menu">
         <li>
           <router-link to="/">Home</router-link>
@@ -15,10 +15,6 @@
         <li>
           <router-link to="/classic-cakes">Classic Cakes</router-link>
         </li>
-        <!-- 
-        <li>
-          <router-link to="/make-cake">Make Your Own Cake</router-link>
-        </li> -->
 
         <li>
           <router-link to="/theme-cakes">Themed Cakes</router-link>
@@ -29,20 +25,28 @@
         </li>
       </ul>
 
-      <!-- Right Side -->
+      <!-- Right Actions -->
       <div class="nav-actions">
-        <button class="search-btn"><i class="bi bi-search"></i></button>
+        <button class="search-btn">
+          <i class="bi bi-search"></i>
+        </button>
 
         <div class="cart-wrapper" @click="goToBag">
-          <button class="cart-btn"><i class="bi bi-bag"></i></button>
+          <button class="cart-btn">
+            <i class="bi bi-bag"></i>
+          </button>
         </div>
 
-        <!-- Show Login -->
-        <router-link v-if="!auth.isLoggedIn" class="login-btn" to="/login"> Login </router-link>
+        <!-- Desktop Login -->
+        <router-link v-if="!auth.isLoggedIn" class="login-btn desktop-only" to="/login">
+          Login
+        </router-link>
 
-        <!-- Show Account -->
-        <div v-else class="user-menu" ref="userMenu" @click.stop>
-          <button class="profile-btn" @click="toggleMenu"><i class="bi bi-person"></i></button>
+        <!-- Desktop User -->
+        <div v-else class="user-menu desktop-only" ref="userMenu" @click.stop>
+          <button class="profile-btn" @click="toggleMenu">
+            <i class="bi bi-person"></i>
+          </button>
 
           <div class="dropdown" v-if="showUserMenu">
             <router-link to="/profile" @click="closeDropdown"> My Profile </router-link>
@@ -52,16 +56,49 @@
             <button @click="logout">Logout</button>
           </div>
         </div>
+
+        <!-- Mobile Hamburger -->
+        <button class="menu-btn" @click="toggleMobileMenu">
+          <i class="bi" :class="showMobileMenu ? 'bi-x-lg' : 'bi-list'"></i>
+        </button>
       </div>
+    </div>
+
+    <!-- Overlay -->
+    <div v-if="showMobileMenu" class="mobile-overlay" @click="closeMobileMenu"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-menu" :class="{ active: showMobileMenu }">
+      <router-link to="/" @click="closeMobileMenu"> Home </router-link>
+
+      <router-link to="/classic-cakes" @click="closeMobileMenu"> Classic Cakes </router-link>
+
+      <router-link to="/theme-cakes" @click="closeMobileMenu"> Themed Cakes </router-link>
+
+      <router-link to="/contact-us" @click="closeMobileMenu"> Contact Us </router-link>
+
+      <router-link to="/bag" @click="closeMobileMenu"> Shopping Bag </router-link>
+
+      <template v-if="!auth.isLoggedIn">
+        <router-link to="/login" @click="closeMobileMenu"> Login </router-link>
+      </template>
+
+      <template v-else>
+        <router-link to="/profile" @click="closeMobileMenu"> My Profile </router-link>
+
+        <router-link to="/my-orders" @click="closeMobileMenu"> My Orders </router-link>
+
+        <button @click="logout">Logout</button>
+      </template>
     </div>
   </nav>
 </template>
+
 <script>
 import { useAuthStore } from '@/stores/authStore'
 import logo from '@/assets/images/pbakes.png'
 
 export default {
-  components: {},
   setup() {
     const auth = useAuthStore()
 
@@ -70,8 +107,9 @@ export default {
 
   data() {
     return {
-      showUserMenu: false,
       logo,
+      showUserMenu: false,
+      showMobileMenu: false,
     }
   },
 
@@ -85,8 +123,10 @@ export default {
 
   methods: {
     goToBag() {
+      this.closeMobileMenu()
       this.$router.push('/bag')
     },
+
     toggleMenu() {
       this.showUserMenu = !this.showUserMenu
     },
@@ -101,10 +141,17 @@ export default {
       }
     },
 
+    toggleMobileMenu() {
+      this.showMobileMenu = !this.showMobileMenu
+    },
+
+    closeMobileMenu() {
+      this.showMobileMenu = false
+    },
+
     logout() {
       this.closeDropdown()
-
-      this.showCart = false
+      this.closeMobileMenu()
 
       this.auth.logout()
 
@@ -113,7 +160,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .navbar {
   position: fixed;
   top: 0;
@@ -121,30 +168,41 @@ export default {
   right: 0;
   z-index: 1000;
   background: var(--background);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid #e8e0da;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .nav-container {
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: auto;
   padding: 0 30px;
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  position: relative;
+  z-index: 1001;
 }
 
 .logo {
   height: 72px;
-  width: auto;
   display: block;
+  max-width: 100%;
 }
+
+/* ===========================
+   Desktop Menu
+=========================== */
 
 .nav-menu {
   display: flex;
+  align-items: center;
+  gap: 32px;
   list-style: none;
-  gap: 30px;
   margin: 0;
   padding: 0;
 }
@@ -153,90 +211,103 @@ export default {
   text-decoration: none;
   color: var(--primary);
   font-weight: 500;
+  transition: 0.3s;
 }
+
+.nav-menu a:hover,
+.nav-menu .router-link-active {
+  color: var(--secondary);
+}
+
+/* ===========================
+   Right Actions
+=========================== */
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 18px;
 }
 
 .search-btn,
 .cart-btn,
-.profile-btn {
+.profile-btn,
+.menu-btn {
   border: none;
   background: transparent;
   cursor: pointer;
   color: var(--primary);
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+  transition: 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.search-btn {
-  font-size: 1.5rem;
-}
-
-.search-btn:hover,
-.cart-btn:hover,
-.profile-btn:hover {
-  color: var(--secondary-hover);
-  transform: scale(1.08);
-}
-
+.search-btn,
 .cart-btn {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
 }
 
 .profile-btn {
   font-size: 1.8rem;
 }
 
+.search-btn:hover,
+.cart-btn:hover,
+.profile-btn:hover,
+.menu-btn:hover {
+  color: var(--secondary);
+}
+
 .cart-wrapper {
-  position: relative;
   cursor: pointer;
 }
+
+.login-btn {
+  text-decoration: none;
+  background: var(--secondary);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: var(--secondary-hover);
+}
+
+/* ===========================
+   User Dropdown
+=========================== */
 
 .user-menu {
   position: relative;
 }
 
-/* .profile-btn {
-  display: flex;
-  align-items: center; 
-  gap: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #564743;
-  font-size: 1rem;
-  font-weight: 600;
-} */
-
 .dropdown {
   position: absolute;
-
-  top: 48px;
+  top: 50px;
   right: 0;
 
   width: 220px;
+  max-width: 80vw;
 
   background: white;
 
-  border-radius: 15px;
+  border-radius: 16px;
 
   overflow: hidden;
 
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-
-  z-index: 999;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .dropdown a,
 .dropdown button {
-  display: block;
-
   width: 100%;
+  display: block;
 
   padding: 14px 20px;
 
@@ -244,35 +315,222 @@ export default {
 
   background: white;
 
+  color: var(--primary);
+
   text-align: left;
 
-  color: #564743;
+  cursor: pointer;
 
   text-decoration: none;
+
+  transition: 0.25s;
+
+  font-size: 0.95rem;
+
+  box-sizing: border-box;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: #faf4ee;
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+.menu-btn {
+  display: none;
+  font-size: 2rem;
+
+  width: 44px;
+  height: 44px;
+}
+
+/* Overlay */
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  z-index: 998;
+}
+
+/* Drawer */
+
+.mobile-menu {
+  position: fixed;
+
+  top: 0;
+  right: -320px;
+
+  width: 300px;
+  max-width: 85vw;
+
+  height: 100vh;
+  height: 100dvh;
+
+  background: white;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 82px;
+
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+
+  transition: right 0.35s ease;
+
+  z-index: 999;
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.mobile-menu a,
+.mobile-menu button {
+  padding: 18px 28px;
+
+  border: none;
+
+  background: white;
+
+  text-align: left;
+
+  text-decoration: none;
+
+  color: var(--primary);
+
+  font-size: 1rem;
 
   cursor: pointer;
 
   transition: 0.25s;
 
-  font-size: 0.95rem;
+  box-sizing: border-box;
 }
 
-.dropdown a:hover,
-.dropdown button:hover {
-  background: #fff8e8;
+.mobile-menu a:hover,
+.mobile-menu button:hover {
+  background: #faf4ee;
 }
 
-.login-btn {
-  text-decoration: none;
-  background: var(--secondary);
-  color: white;
-  padding: 10px 20px;
-  /* border-radius: 25px; */
+.mobile-menu .router-link-active {
+  color: var(--secondary);
   font-weight: 600;
-  transition: 0.3s;
 }
 
-.login-btn:hover {
-  background: var(--secondary-hover);
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width: 992px) {
+  .nav-container {
+    padding: 0 20px;
+  }
+
+  .nav-menu {
+    gap: 22px;
+  }
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .logo {
+    height: 58px;
+  }
+
+  .nav-container {
+    min-height: 72px;
+    padding: 0 16px;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .menu-btn {
+    display: flex;
+  }
+
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .search-btn {
+    display: none;
+  }
+
+  .mobile-menu {
+    padding-top: 72px;
+  }
+}
+
+/* ===========================
+   Small Phones
+=========================== */
+
+@media (max-width: 480px) {
+  .logo {
+    height: 50px;
+  }
+
+  .cart-btn {
+    font-size: 1.3rem;
+  }
+
+  .menu-btn {
+    font-size: 1.8rem;
+  }
+
+  .mobile-menu {
+    width: 270px;
+  }
+}
+
+/* ===========================
+   Very Small Phones
+=========================== */
+
+@media (max-width: 360px) {
+  .nav-container {
+    padding: 0 12px;
+  }
+
+  .logo {
+    height: 44px;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .mobile-menu {
+    width: 240px;
+  }
+
+  .mobile-menu a,
+  .mobile-menu button {
+    padding: 16px 20px;
+  }
 }
 </style>

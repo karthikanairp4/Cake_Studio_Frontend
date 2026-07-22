@@ -23,11 +23,53 @@
             <input v-model="checkout.postalCode" placeholder="Postal Code" />
           </div>
         </div>
+        <h3>Cake Collection</h3>
 
+        <div class="form-group">
+          <label>Pickup Date</label>
+
+          <input type="date" v-model="checkout.pickupDate" :min="minPickupDate" />
+
+          <small class="hint">
+            {{
+              cart.some((item) => item.cake.category === 'THEMED')
+                ? 'Themed cakes require at least 3 days notice.'
+                : 'Classic cakes require at least 1 day notice.'
+            }}
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Pickup Time</label>
+
+          <select v-model="checkout.pickupTime">
+            <option disabled value="">Select Time</option>
+
+            <option>10:00 AM - 12:00 PM</option>
+
+            <option>12:00 PM - 2:00 PM</option>
+
+            <option>2:00 PM - 4:00 PM</option>
+
+            <option>4:00 PM - 6:00 PM</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Special Instructions (Optional)</label>
+
+          <textarea
+            rows="4"
+            v-model="checkout.notes"
+            placeholder="Anything you'd like us to know?"
+          ></textarea>
+        </div>
+
+        <h3>Payment Details</h3>
         <div class="card">
           <h3>Payment</h3>
 
-          <StripePayment :buyNowItem="buyNowItem" @payment-success="paymentSuccess" />
+          <StripePayment @payment-success="paymentSuccess" />
         </div>
       </div>
 
@@ -74,6 +116,7 @@ import { getCart } from '@/services/cartService'
 import { buyNow, checkout } from '@/services/checkout'
 import StripePayment from '@/components/StripePayment.vue'
 import PaymentSuccessModal from '@/modal/PaymentSuccessModal.vue'
+import { getProfile } from '@/services/profileService'
 export default {
   components: {
     NavBar,
@@ -90,6 +133,9 @@ export default {
         city: '',
         province: '',
         postalCode: '',
+        pickupDate: '',
+        pickupTime: '',
+        notes: '',
       },
       showSuccessModal: false,
       placedOrder: null,
@@ -104,19 +150,54 @@ export default {
         return sum + this.calculatePrice(item)
       }, 0)
     },
+    minPickupDate() {
+      const date = new Date()
+
+      const hasThemedCake = this.cart.some((item) => item.cake.category === 'THEMED')
+
+      if (hasThemedCake) {
+        date.setDate(date.getDate() + 3)
+      } else {
+        date.setDate(date.getDate() + 1)
+      }
+
+      return date.toISOString().split('T')[0]
+    },
   },
 
   async mounted() {
+    console.log('Checkout mounted')
+    try {
+      const profile = await getProfile()
+
+      this.checkout.street = profile.street || ''
+      this.checkout.city = profile.city || ''
+      this.checkout.province = profile.province || ''
+      this.checkout.postalCode = profile.postalCode || ''
+    } catch (err) {
+      console.error(err)
+    }
+
     const mode = sessionStorage.getItem('checkoutMode')
+
+    console.log('checkoutMode:', sessionStorage.getItem('checkoutMode'))
+    console.log('buyNow:', sessionStorage.getItem('buyNow'))
+
     if (mode === 'BUY_NOW') {
+      console.log('inside buy now')
       this.isBuyNow = true
+
       this.buyNowItem = JSON.parse(sessionStorage.getItem('buyNow'))
+      console.log('Parent:', this.buyNowItem)
       this.cart = [this.buyNowItem]
     } else {
       this.isBuyNow = false
+
       const userId = localStorage.getItem('userID')
+
       this.cart = await getCart(userId)
     }
+    console.log('Checkout finished loading')
   },
 
   methods: {
@@ -341,5 +422,60 @@ export default {
   .two-column {
     grid-template-columns: 1fr;
   }
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+select,
+textarea {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border-radius: 14px;
+
+  border: 1px solid #e6e6e6;
+
+  font-size: 15px;
+
+  box-sizing: border-box;
+
+  transition: 0.3s;
+
+  background: white;
+}
+
+textarea {
+  resize: vertical;
+
+  min-height: 120px;
+}
+
+select:focus,
+textarea:focus {
+  outline: none;
+
+  border-color: var(--secondary);
+
+  box-shadow: 0 0 0 4px rgba(209, 170, 103, 0.15);
+}
+
+.hint {
+  display: block;
+
+  margin-top: 8px;
+
+  color: var(--text-light);
+
+  font-size: 0.85rem;
 }
 </style>

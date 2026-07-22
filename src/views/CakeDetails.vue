@@ -203,60 +203,65 @@ export default {
     },
 
     async addToCart() {
-      console.log('add to cart button clicked!')
-      const user_id = localStorage.getItem('userID')
-      const cartItem = {
-        userId: Number(user_id),
-        cakeId: this.cake.id,
-        quantity: this.quantity,
-        weight: this.weightMap[this.selectedOptions.weight],
-        message: this.selectedOptions.message,
-        spongeId: this.selectedOptions.sponge?.id ?? null,
-        fillingId: this.selectedOptions.filling?.id ?? null,
-        frostingId: this.selectedOptions.frosting?.id ?? null,
+      const user = localStorage.getItem('userID')
+      if (user) {
+        console.log('add to cart button clicked!')
+        const user_id = localStorage.getItem('userID')
+        const cartItem = {
+          userId: Number(user_id),
+          cakeId: this.cake.id,
+          quantity: this.quantity,
+          weight: this.weightMap[this.selectedOptions.weight],
+          message: this.selectedOptions.message,
+          spongeId: this.selectedOptions.sponge?.id ?? null,
+          fillingId: this.selectedOptions.filling?.id ?? null,
+          frostingId: this.selectedOptions.frosting?.id ?? null,
+        }
+
+        console.log('cartItem', cartItem)
+
+        const response = await addToCart(cartItem)
+        // console.log(this.cart, 'Cart Item')
+        console.log('response cart', response)
+        alert('Added to Cart')
+      } else {
+        alert('Please login')
+        this.$router.push('/login')
       }
-
-      console.log('cartItem', cartItem)
-
-      const response = await addToCart(cartItem)
-      // console.log(this.cart, 'Cart Item')
-      console.log('response cart', response)
-      alert('Added to Cart')
     },
     buyNow() {
-      const item = {
-        // Objects for Checkout UI
-        cake: this.cake,
-        sponge: this.selectedOptions.sponge,
-        filling: this.selectedOptions.filling,
-        frosting: this.selectedOptions.frosting,
+      const user = localStorage.getItem('userID')
+      if (user) {
+        const item = {
+          cake: this.cake,
+          sponge: this.selectedOptions.sponge,
+          filling: this.selectedOptions.filling,
+          frosting: this.selectedOptions.frosting,
 
-        // IDs for backend
-        cakeId: this.cake.id,
-        spongeId: this.selectedOptions.sponge?.id,
-        fillingId: this.selectedOptions.filling?.id,
-        frostingId: this.selectedOptions.frosting?.id,
+          cakeId: this.cake.id,
+          spongeId: this.selectedOptions.sponge?.id,
+          fillingId: this.selectedOptions.filling?.id,
+          frostingId: this.selectedOptions.frosting?.id,
 
-        quantity: this.quantity,
+          quantity: this.quantity,
 
-        // Convert "1 Kg" -> 1
-        weight: this.weightMap[this.selectedOptions.weight],
+          weight: this.weightMap[this.selectedOptions.weight],
 
-        message: this.selectedOptions.message,
+          message: this.selectedOptions.message,
+        }
+        sessionStorage.setItem('checkoutMode', 'BUY_NOW')
+        sessionStorage.setItem('buyNow', JSON.stringify(item))
+
+        this.$router.push('/checkout')
+      } else {
+        alert('Please login')
+        this.$router.push('/login')
       }
-      sessionStorage.setItem('checkoutMode', 'BUY_NOW')
-      sessionStorage.setItem('buyNow', JSON.stringify(item))
-
-      this.$router.push('/checkout')
     },
   },
 }
 </script>
 <style scoped>
-/*==========================
-    Breadcrumb
-===========================*/
-
 .breadcrumb {
   display: flex;
 
@@ -576,6 +581,10 @@ hr {
 
   .trust-badges {
     gap: 18px;
+  }
+  
+  .breadcrumb{
+    margin-top: 100px;
   }
 }
 </style>
