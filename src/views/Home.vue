@@ -1,5 +1,6 @@
 <template>
   <NavBar />
+
   <section class="hero-section">
     <div class="hero-container">
       <!-- Left Side -->
@@ -27,19 +28,19 @@
       <!-- Right Side -->
       <div class="hero-images">
         <div class="image-card">
-          <img :src="homeimg1" alt="" />
+          <img :src="homeimg1" alt="Handcrafted celebration cake" />
         </div>
 
         <div class="image-card">
-          <img :src="homeimg2" alt="" />
+          <img :src="homeimg2" alt="Freshly baked cake" />
         </div>
 
         <div class="image-card">
-          <img :src="homeimg3" alt="" />
+          <img :src="homeimg3" alt="Custom decorated cake" />
         </div>
 
         <div class="image-card">
-          <img :src="homeimg4" alt="" />
+          <img :src="homeimg4" alt="Themed celebration cake" />
         </div>
       </div>
     </div>
@@ -54,7 +55,7 @@
 
     <div class="swiper-wrapper-custom">
       <!-- Left Arrow -->
-      <button class="custom-prev">
+      <button class="custom-prev" aria-label="Previous cake">
         <i class="bi bi-chevron-left"></i>
       </button>
 
@@ -100,40 +101,51 @@
       </Swiper>
 
       <!-- Right Arrow -->
-      <button class="custom-next">
+      <button class="custom-next" aria-label="Next cake">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </section>
+
   <!-- About Section -->
   <section class="about-section">
     <div class="about-container">
       <div class="about-image">
-        <img class="about-photo" src="@/assets/images/about-cake.jpg" alt="Handcrafted Cake" />
+        <img
+          class="about-photo"
+          src="@/assets/images/about-cake.jpg"
+          alt="Founder of Paprika Bakes"
+        />
       </div>
 
       <div class="about-content">
         <p class="about-subtitle">OUR STORY</p>
 
         <h2>
-          Baking Memories,
+          It All Started With
           <br />
-          <span>One Cake at a Time</span>
+          <span>₹2,000 & a Dream</span>
         </h2>
 
         <p class="about-description">
-          Every cake at The Cake Studio is handcrafted with premium ingredients and creative
-          designs. From birthdays and weddings to every special celebration, we create cakes that
-          are as memorable as the moments they celebrate.
+          Ever since I was a little girl, I dreamed of baking beautiful cakes. Every Christmas, I
+          would watch baking shows on television, imagining the day I could create cakes of my own.
         </p>
 
-        <ul class="about-features">
-          <li><i class="bi bi-check-circle-fill"></i> Premium Quality Ingredients</li>
-          <li><i class="bi bi-check-circle-fill"></i> Custom Cake Designs</li>
-          <li><i class="bi bi-check-circle-fill"></i> Freshly Baked Every Day</li>
-          <li><i class="bi bi-check-circle-fill"></i> Perfect for Every Celebration</li>
-        </ul>
-        <router-link class="about-btn" to="/contact-us"> Contact Us </router-link>
+        <p class="about-description">
+          In 2020, while pursuing my engineering degree, I invested
+          <strong>₹2,000</strong> from my Prime Minister's Scholarship to buy my first hand mixer
+          and baking essentials. That simple decision marked the beginning of Paprika Bakes.
+        </p>
+
+        <p class="about-description">
+          My very first cake wasn't perfectly decorated, but everyone loved the taste. After sharing
+          it with family and neighbours, I received my first order and today, I've handcrafted and
+          delivered
+          <strong>150+ cakes</strong>, each made with love and care.
+        </p>
+
+        <router-link class="about-btn" to="/classic-cakes"> Explore Our Cakes </router-link>
       </div>
     </div>
   </section>
@@ -155,7 +167,7 @@
         <p>
           Timeless cakes handcrafted for birthdays, anniversaries and every special celebration.
         </p>
-        <router-link to="/classic-cakes" class="menu-btn"> Explore Collection </router-link>
+        <router-link to="/classic-cakes" class="category-btn"> Explore Collection </router-link>
       </div>
 
       <!-- Card 2 -->
@@ -168,10 +180,11 @@
 
         <p>Creative character, floral and designer cakes made to impress on every occasion.</p>
 
-        <router-link to="/theme-cakes" class="menu-btn"> Explore Collection </router-link>
+        <router-link to="/theme-cakes" class="category-btn"> Explore Collection </router-link>
       </div>
     </div>
   </section>
+
   <!-- Gallery Section -->
   <section class="gallery-section">
     <div class="gallery-container">
@@ -215,22 +228,22 @@
 
       <!-- Top Image -->
       <div class="gallery-image image-one">
-        <img :src="gallery1" alt="" />
+        <img :src="gallery1" alt="Bakery gallery photo one" />
       </div>
 
       <!-- Top Image -->
       <div class="gallery-image image-two">
-        <img :src="gallery2" alt="" />
+        <img :src="gallery2" alt="Bakery gallery photo two" />
       </div>
 
       <!-- Bottom Left -->
       <div class="gallery-image image-three">
-        <img :src="gallery3" alt="" />
+        <img :src="gallery3" alt="Bakery gallery photo three" />
       </div>
 
       <!-- Bottom Right -->
       <div class="gallery-image image-four">
-        <img :src="gallery4" alt="" />
+        <img :src="gallery4" alt="Bakery gallery photo four" />
       </div>
     </div>
   </section>
@@ -251,10 +264,8 @@
         </p>
 
         <div class="customer">
-
           <div>
             <h3>Krishnakumar</h3>
-
             <span>Birthday Customer</span>
           </div>
         </div>
@@ -268,10 +279,8 @@
         </p>
 
         <div class="customer">
-
           <div>
             <h3>Hridhi</h3>
-
             <span>Wedding Customer</span>
           </div>
         </div>
@@ -285,20 +294,30 @@
         </p>
 
         <div class="customer">
-
           <div>
             <h3>Sundappi</h3>
-
             <span>Regular Customer</span>
           </div>
         </div>
       </div>
     </div>
   </section>
+
   <Footer />
 </template>
+
 <script>
 import NavBar from '@/components/NavBar.vue'
+import Footer from '@/components/Footer.vue'
+
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+
+import { getCakesByCategory } from '@/services/cakeService'
+import { BASE_URL } from '@/config/constants'
+
 import homeimg1 from '@/assets/images/home-one.jpg'
 import homeimg2 from '@/assets/images/home-two.jpg'
 import homeimg3 from '@/assets/images/home-three.jpg'
@@ -306,26 +325,22 @@ import homeimg4 from '@/assets/images/home-four.jpg'
 
 import dessertImg from '@/assets/images/cupcake-home.png'
 import cakeImg from '@/assets/images/cake2-home.png'
-import customCakeImg from '@/assets/images/bread-home.png'
 
 import gallery1 from '@/assets/images/gallary_1.png'
 import gallery2 from '@/assets/images/gallary_2.png'
 import gallery3 from '@/assets/images/gallary_3.png'
 import gallery4 from '@/assets/images/gallary_4.jpg'
 
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation } from 'swiper/modules'
-
-import 'swiper/css'
-import 'swiper/css/navigation'
-import Footer from '@/components/Footer.vue'
-import { getCakesByCategory } from '@/services/cakeService'
-import { BASE_URL } from '@/config/constants'
-
-import classicCakeImg from '@/assets/images/classicCakeImg.jpg'
-import themedCakeImg from '@/assets/images/themeCakeImg.jpg'
-
 export default {
+  name: 'HomeView',
+
+  components: {
+    NavBar,
+    Swiper,
+    SwiperSlide,
+    Footer,
+  },
+
   data() {
     return {
       homeimg1,
@@ -334,33 +349,24 @@ export default {
       homeimg4,
       dessertImg,
       cakeImg,
-      customCakeImg,
-      Navigation,
       gallery1,
       gallery2,
       gallery3,
       gallery4,
-      cakes: [],
+      Navigation,
       BASE_URL,
-      themedCakeImg,
-      classicCakeImg,
+      cakes: [],
     }
   },
-  components: {
-    NavBar,
-    Swiper,
-    SwiperSlide,
-    Footer,
-  },
+
   async mounted() {
     try {
       this.cakes = await getCakesByCategory('CLASSIC')
-      console.log(this.cakes)
     } catch (error) {
-      console.log(error)
+      console.error('Failed to load cakes:', error)
     }
   },
-  computed: {},
+
   methods: {
     goToDetails(id) {
       this.$router.push(`/cakes/${id}`)
@@ -369,10 +375,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .hero-section {
   position: relative;
-  /* min-height:calc(100vh - 88px); */
   background: linear-gradient(135deg, #fcf8f5 0%, #f7efea 100%);
   overflow: hidden;
   padding: 60px 0 70px;
@@ -444,9 +449,9 @@ export default {
 
 .btn-primary {
   background: var(--primary);
-
   color: white;
 }
+
 .btn-primary:hover {
   background: var(--secondary);
 }
@@ -504,7 +509,6 @@ export default {
 
 .image-card:nth-child(3) {
   height: 220px;
-  /* margin-top: 60px; */
 }
 
 .image-card:nth-child(4) {
@@ -599,7 +603,6 @@ export default {
 .cake-swiper {
   width: min(92%, 1400px);
   margin: auto;
-  /* overflow: hidden; */
 }
 
 .swiper-wrapper-custom {
@@ -638,16 +641,13 @@ export default {
 .custom-prev i,
 .custom-next i {
   font-size: 1.5rem;
-
   color: var(--primary);
-
   transition: 0.3s;
 }
 
 .custom-prev:hover,
 .custom-next:hover {
   background: var(--primary);
-
   transform: translateY(-50%) scale(1.05);
 }
 
@@ -661,7 +661,9 @@ export default {
   display: none !important;
 }
 
-/* about */
+/* ==========================
+   ABOUT SECTION
+========================== */
 
 .about-section {
   background: var(--background);
@@ -691,10 +693,6 @@ export default {
   border-radius: 28px;
   box-shadow: 0 18px 40px rgba(23, 20, 20, 0.12);
 }
-
-/* .about-image img:hover {
-  transform: scale(1.02);
-} */
 
 .about-subtitle {
   color: var(--secondary);
@@ -758,51 +756,9 @@ export default {
   transition: all 0.3s ease;
 }
 
-@media (max-width: 992px) {
-  .about-container {
-    grid-template-columns: 1fr;
-
-    gap: 50px;
-
-    text-align: center;
-  }
-
-  .about-description {
-    margin-inline: auto;
-  }
-
-  .about-features li {
-    justify-content: center;
-  }
-
-  .about-image img {
-    max-width: 480px;
-  }
-}
-
-@media (max-width: 768px) {
-  .about-section {
-    padding: 70px 0;
-  }
-
-  .about-content h2 {
-    font-size: 2.4rem;
-  }
-
-  .about-btn {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .about-image img {
-    max-width: 100%;
-  }
-}
-
-/* menu */
-/* ===================================
-   SHOP BY CATEGORY
-=================================== */
+/* ==========================
+   MENU / SHOP BY CATEGORY
+========================== */
 
 .menu-section {
   background: white;
@@ -816,61 +772,39 @@ export default {
 
 .menu-subtitle {
   color: var(--secondary);
-
   text-transform: uppercase;
-
   letter-spacing: 2px;
-
   font-size: 0.95rem;
-
   font-weight: 700;
-
   margin-bottom: 18px;
 }
 
 .menu-header h2 {
   font-size: clamp(2.5rem, 4vw, 3.8rem);
-
   color: var(--primary);
-
   line-height: 1.2;
 }
 
-/* ---------- Cards Container ---------- */
-
 .menu-cards {
   width: min(92%, 1100px);
-
   margin: auto;
-
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
   gap: 60px;
 }
 
-/* ---------- Card ---------- */
-
 .menu-card {
   background: var(--background);
-
   border-radius: 24px;
-
   padding: 120px 35px 40px;
-
   position: relative;
-
   text-align: center;
-
   box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
-
   transition: all 0.35s ease;
 }
 
 .menu-card:hover {
   transform: translateY(-10px);
-
   box-shadow: 0 20px 45px rgba(23, 20, 20, 0.15);
 }
 
@@ -900,107 +834,38 @@ export default {
 
 .menu-card h3 {
   color: var(--primary);
-
   font-size: 2rem;
-
   margin-bottom: 20px;
 }
 
 .menu-card p {
   color: var(--text-light);
-
   font-size: 1rem;
-
   line-height: 1.8;
-
   margin-bottom: 35px;
-
   min-height: 90px;
 }
 
-/* ---------- Button ---------- */
-
-.menu-btn {
+.category-btn {
   display: inline-flex;
-
   justify-content: center;
-
   align-items: center;
-
   text-decoration: none;
-
   padding: 14px 32px;
-
   border-radius: 35px;
-
   background: var(--primary);
-
   color: white;
-
   font-weight: 600;
-
   transition: all 0.3s ease;
 }
 
-.menu-btn:hover {
+.category-btn:hover {
   background: var(--secondary);
-
   transform: translateY(-2px);
 }
 
-/* ---------- Responsive ---------- */
-
-@media (max-width: 992px) {
-  .menu-cards {
-    grid-template-columns: 1fr;
-
-    gap: 120px;
-  }
-
-  .menu-card {
-    max-width: 500px;
-
-    width: 100%;
-
-    margin: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .menu-section {
-    padding: 70px 0;
-  }
-
-  .menu-header {
-    margin-bottom: 70px;
-  }
-
-  .card-image {
-    width: 150px;
-    height: 150px;
-
-    top: -75px;
-  }
-
-  .card-image img {
-    width: 115px;
-  }
-
-  .menu-card {
-    padding: 110px 30px 35px;
-  }
-
-  .menu-card h3 {
-    font-size: 1.7rem;
-  }
-
-  .menu-btn {
-    width: 100%;
-  }
-}
-
 /* ==========================
-      GALLERY SECTION
+   GALLERY SECTION
 ========================== */
 
 .gallery-section {
@@ -1010,23 +875,13 @@ export default {
 
 .gallery-container {
   width: min(92%, 1450px);
-
   margin: auto;
-
   display: grid;
-
   grid-template-columns: 1fr 0.7fr 0.9fr;
-
   grid-template-rows: auto 320px;
-
   gap: 25px;
-
   align-items: stretch;
 }
-
-/* ===================================
-   LEFT CONTENT
-=================================== */
 
 .gallery-content {
   background: linear-gradient(135deg, var(--primary), #322b2b);
@@ -1046,15 +901,10 @@ export default {
 
 .gallery-subtitle {
   color: rgba(255, 255, 255, 0.75);
-
   text-transform: uppercase;
-
   letter-spacing: 2px;
-
   font-size: 0.9rem;
-
   font-weight: 700;
-
   margin-bottom: 18px;
 }
 
@@ -1086,49 +936,34 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-
   margin-bottom: 28px;
-
   color: white;
-
   font-size: 1rem;
-
   font-weight: 500;
 }
 
 .gallery-features i {
   color: var(--secondary);
-
   font-size: 1.1rem;
 }
 
 .gallery-image {
   overflow: hidden;
-
   border-radius: 28px;
-
   box-shadow: 0 18px 40px rgba(23, 20, 20, 0.1);
-
   position: relative;
 }
 
 .gallery-image img {
   width: 100%;
-
   height: 100%;
-
   object-fit: cover;
-
   transition: transform 0.4s ease;
 }
 
 .gallery-image:hover img {
   transform: scale(1.05);
 }
-
-/* ===================================
-   GRID LAYOUT
-=================================== */
 
 .image-one {
   grid-column: 2;
@@ -1150,16 +985,99 @@ export default {
   grid-row: 2;
 }
 
-/* ===================================
-   RESPONSIVE
-=================================== */
+/* ==========================
+   TESTIMONIALS
+========================== */
+
+.testimonial-section {
+  background: var(--background);
+  padding: 100px 0;
+}
+
+.testimonial-heading {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.testimonial-heading p {
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.testimonial-heading h2 {
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.testimonial-container {
+  width: min(92%, 1400px);
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 24px;
+  padding: 35px;
+  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
+  transition: 0.35s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.14);
+}
+
+.stars {
+  color: #f4b400;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.review {
+  color: var(--text-light);
+  line-height: 1.9;
+  font-size: 1rem;
+  min-height: 150px;
+}
+
+.customer {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.customer img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.customer h3 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.customer span {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
 
 @media (max-width: 1100px) {
   .gallery-container {
     grid-template-columns: 1fr 1fr;
-
     grid-template-rows: auto 260px 260px;
-
     gap: 20px;
   }
 
@@ -1188,14 +1106,169 @@ export default {
   }
 }
 
+@media (max-width: 992px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 45px;
+    padding-top: 40px;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .description {
+    margin-inline: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-images {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .custom-prev,
+  .custom-next {
+    width: 46px;
+    height: 46px;
+  }
+
+  .custom-prev {
+    left: 5px;
+  }
+
+  .custom-next {
+    right: 5px;
+  }
+
+  .custom-prev i,
+  .custom-next i {
+    font-size: 1.2rem;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+
+  .about-description {
+    margin-inline: auto;
+  }
+
+  .about-features li {
+    justify-content: center;
+  }
+
+  .about-image img {
+    max-width: 480px;
+  }
+
+  .menu-cards {
+    grid-template-columns: 1fr;
+    gap: 120px;
+  }
+
+  .menu-card {
+    max-width: 500px;
+    /* width: 100%; */
+    margin: auto;
+  }
+
+  .testimonial-container {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonial-card {
+    max-width: 600px;
+    margin: auto;
+  }
+}
+
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 40px 0 50px;
+  }
+
+  .hero-content h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero-images {
+    gap: 18px;
+  }
+
+  .image-card:nth-child(1),
+  .image-card:nth-child(2),
+  .image-card:nth-child(3),
+  .image-card:nth-child(4) {
+    height: 150px;
+    margin-top: 0;
+  }
+
+  .about-section {
+    padding: 70px 0;
+  }
+
+  .about-content h2 {
+    font-size: 2.4rem;
+  }
+
+  .about-btn {
+    /* width: 100%; */
+    /* max-width: 300px; */
+  }
+
+  /* .about-image img {
+    max-width: 100%;
+  } */
+
+  .menu-section {
+    padding: 70px 0;
+  }
+
+  .menu-header {
+    margin-bottom: 70px;
+  }
+
+  .card-image {
+    width: 150px;
+    height: 150px;
+    top: -75px;
+  }
+
+  .card-image img {
+    width: 115px;
+  }
+
+  .menu-card {
+    padding: 110px 30px 35px;
+  }
+
+  .menu-card h3 {
+    font-size: 1.7rem;
+  }
+
+  .category-btn {
+    /* width: 100%; */
+  }
+
   .gallery-section {
     padding: 70px 0;
   }
 
   .gallery-container {
     grid-template-columns: 1fr;
-
     grid-template-rows: auto repeat(4, 260px);
   }
 
@@ -1221,141 +1294,29 @@ export default {
   }
 }
 
-/*==========================
-      TESTIMONIALS
-===========================*/
-
-/* ===================================
-   TESTIMONIALS
-=================================== */
-
-.testimonial-section {
-  background: var(--background);
-  padding: 100px 0;
-}
-
-.testimonial-heading {
-  text-align: center;
-  margin-bottom: 70px;
-}
-
-.testimonial-heading p {
-  color: var(--secondary);
-
-  text-transform: uppercase;
-
-  letter-spacing: 2px;
-
-  font-size: 0.95rem;
-
-  font-weight: 700;
-
-  margin-bottom: 18px;
-}
-
-.testimonial-heading h2 {
-  font-size: clamp(2.5rem, 4vw, 3.8rem);
-
-  color: var(--primary);
-
-  line-height: 1.2;
-}
-
-.testimonial-container {
-  width: min(92%, 1400px);
-
-  margin: auto;
-
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 35px;
-}
-
-.testimonial-card {
-  background: white;
-
-  border-radius: 24px;
-
-  padding: 35px;
-
-  box-shadow: 0 15px 35px rgba(23, 20, 20, 0.08);
-
-  transition: 0.35s;
-}
-
-.testimonial-card:hover {
-  transform: translateY(-8px);
-
-  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.14);
-}
-
-.stars {
-  color: #f4b400;
-
-  font-size: 1rem;
-
-  margin-bottom: 20px;
-
-  letter-spacing: 2px;
-}
-
-.review {
-  color: var(--text-light);
-
-  line-height: 1.9;
-
-  font-size: 1rem;
-
-  min-height: 150px;
-}
-
-.customer {
-  display: flex;
-
-  align-items: center;
-
-  gap: 18px;
-
-  margin-top: 30px;
-}
-
-.customer img {
-  width: 65px;
-
-  height: 65px;
-
-  border-radius: 50%;
-
-  object-fit: cover;
-}
-
-.customer h3 {
-  color: var(--primary);
-
-  font-size: 1.1rem;
-
-  margin-bottom: 4px;
-}
-
-.customer span {
-  color: var(--secondary);
-
-  font-size: 0.9rem;
-}
-
-/* Tablet */
-
-@media (max-width: 992px) {
-  .testimonial-container {
-    grid-template-columns: 1fr;
+@media (max-width: 480px) {
+  .category-btn,
+  .about-btn {
+    min-width: 0;
+    box-sizing: border-box;
   }
 
-  .testimonial-card {
-    max-width: 600px;
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    margin: auto;
+  .btn-primary,
+  .btn-secondary {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 14px 20px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .review {
+    min-height: 0;
   }
 }
 </style>

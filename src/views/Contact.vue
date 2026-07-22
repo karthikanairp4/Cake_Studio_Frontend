@@ -38,7 +38,7 @@
 
           <div>
             <h4>Address</h4>
-            <p>Winnipeg, Manitoba, Canada</p>
+            <p>Kottayam, Kerala, India</p>
           </div>
         </div>
 
@@ -49,7 +49,7 @@
 
           <div>
             <h4>Phone</h4>
-            <p>+1 (204) XXX-XXXX</p>
+            <p>+91 476-678-2445</p>
           </div>
         </div>
 
@@ -60,7 +60,7 @@
 
           <div>
             <h4>Email</h4>
-            <p>hello@paprikabakes.ca</p>
+            <p>paprikabakes@gmail.com</p>
           </div>
         </div>
 
@@ -117,7 +117,7 @@
 
     <div class="map-card">
       <iframe
-        src="https://www.google.com/maps?q=Winnipeg&output=embed"
+        src="https://www.google.com/maps?q=Kottayam,Kerala,India&output=embed"
         loading="lazy"
         allowfullscreen
       ></iframe>
@@ -126,58 +126,29 @@
 
   <!-- FAQ -->
 
-<section class="faq-section">
-
+  <section class="faq-section">
     <div class="section-heading">
+      <p class="section-subtitle">FREQUENTLY ASKED QUESTIONS</p>
 
-        <p class="section-subtitle">
-            FREQUENTLY ASKED QUESTIONS
-        </p>
+      <h2>Need Help?</h2>
 
-        <h2>
-            Need Help?
-        </h2>
-
-        <p>
-            Here are some of the questions we receive most often.
-        </p>
-
+      <p>Here are some of the questions we receive most often.</p>
     </div>
 
-    <div
-        class="faq-item"
-        v-for="item in faqs"
-        :key="item.question"
-    >
+    <div class="faq-item" v-for="item in faqs" :key="item.question">
+      <div class="faq-question" @click="item.open = !item.open">
+        <span>{{ item.question }}</span>
 
-        <div
-            class="faq-question"
-            @click="item.open=!item.open"
-        >
+        <i class="bi" :class="item.open ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+      </div>
 
-            <span>{{ item.question }}</span>
-
-            <i
-              class="bi"
-              :class="item.open ? 'bi-dash-lg' : 'bi-plus-lg'"
-            ></i>
-
+      <transition name="faq">
+        <div v-if="item.open" class="faq-answer">
+          {{ item.answer }}
         </div>
-
-        <transition name="faq">
-
-            <div
-                v-if="item.open"
-                class="faq-answer"
-            >
-                {{ item.answer }}
-            </div>
-
-        </transition>
-
+      </transition>
     </div>
-
-</section>
+  </section>
 
   <Footer />
 </template>
@@ -437,215 +408,167 @@ button:hover {
         MAP
 =========================== */
 
-.map-section{
+.map-section {
+  width: min(92%, 1400px);
 
-    width:min(92%,1400px);
-
-    margin:120px auto;
-
+  margin: 120px auto;
 }
 
-.section-heading{
+.section-heading {
+  max-width: 700px;
 
-    max-width:700px;
+  margin: 0 auto 60px;
 
-    margin:0 auto 60px;
-
-    text-align:center;
-
+  text-align: center;
 }
 
-.section-subtitle{
+.section-subtitle {
+  color: var(--secondary);
 
-    color:var(--secondary);
+  text-transform: uppercase;
 
-    text-transform:uppercase;
+  letter-spacing: 3px;
 
-    letter-spacing:3px;
+  font-size: 0.95rem;
 
-    font-size:.95rem;
+  font-weight: 700;
 
-    font-weight:700;
-
-    margin-bottom:18px;
-
+  margin-bottom: 18px;
 }
 
-.section-heading h2{
+.section-heading h2 {
+  color: var(--primary);
 
-    color:var(--primary);
+  font-size: clamp(2.5rem, 4vw, 3.8rem);
 
-    font-size:clamp(2.5rem,4vw,3.8rem);
-
-    margin-bottom:18px;
-
+  margin-bottom: 18px;
 }
 
-.section-heading p{
+.section-heading p {
+  color: var(--text-light);
 
-    color:var(--text-light);
-
-    line-height:1.8;
-
+  line-height: 1.8;
 }
 
-.map-card{
+.map-card {
+  overflow: hidden;
 
-    overflow:hidden;
+  border-radius: 28px;
 
-    border-radius:28px;
-
-    box-shadow:0 20px 45px rgba(23,20,20,.10);
-
+  box-shadow: 0 20px 45px rgba(23, 20, 20, 0.1);
 }
 
-.map-card iframe{
+.map-card iframe {
+  width: 100%;
 
-    width:100%;
+  height: 520px;
 
-    height:520px;
-
-    border:none;
-
+  border: none;
 }
 
 /* ===========================
         FAQ
 =========================== */
 
-.faq-section{
+.faq-section {
+  width: min(92%, 900px);
 
-    width:min(92%,900px);
-
-    margin:120px auto;
-
+  margin: 120px auto;
 }
 
-.faq-item{
+.faq-item {
+  background: white;
 
-    background:white;
+  border-radius: 20px;
 
-    border-radius:20px;
+  margin-bottom: 20px;
 
-    margin-bottom:20px;
+  box-shadow: 0 10px 30px rgba(23, 20, 20, 0.08);
 
-    box-shadow:0 10px 30px rgba(23,20,20,.08);
-
-    overflow:hidden;
-
+  overflow: hidden;
 }
 
-.faq-question{
+.faq-question {
+  padding: 24px 30px;
 
-    padding:24px 30px;
+  display: flex;
 
-    display:flex;
+  justify-content: space-between;
 
-    justify-content:space-between;
+  align-items: center;
 
-    align-items:center;
+  cursor: pointer;
 
-    cursor:pointer;
+  font-weight: 600;
 
-    font-weight:600;
-
-    color:var(--primary);
-
+  color: var(--primary);
 }
 
-.faq-question i{
+.faq-question i {
+  color: var(--secondary);
 
-    color:var(--secondary);
-
-    font-size:1.1rem;
-
+  font-size: 1.1rem;
 }
 
-.faq-answer{
+.faq-answer {
+  padding: 0 30px 25px;
 
-    padding:0 30px 25px;
+  color: var(--text-light);
 
-    color:var(--text-light);
-
-    line-height:1.8;
-
+  line-height: 1.8;
 }
 
 /* Animation */
 
 .faq-enter-active,
-.faq-leave-active{
-
-    transition:all .3s ease;
-
+.faq-leave-active {
+  transition: all 0.3s ease;
 }
 
 .faq-enter-from,
-.faq-leave-to{
+.faq-leave-to {
+  opacity: 0;
 
-    opacity:0;
-
-    transform:translateY(-8px);
-
+  transform: translateY(-8px);
 }
 
 /* ===========================
         MOBILE
 =========================== */
 
-@media(max-width:992px){
+@media (max-width: 992px) {
+  .contact-section {
+    grid-template-columns: 1fr;
+  }
 
-.contact-section{
-
-grid-template-columns:1fr;
-
+  .contact-card {
+    padding: 35px;
+  }
 }
 
-.contact-card{
+@media (max-width: 768px) {
+  .page-header {
+    margin: 50px auto;
+  }
 
-padding:35px;
+  .page-header h1 {
+    font-size: 2.8rem;
+  }
 
-}
+  .contact-card h2 {
+    font-size: 2rem;
+  }
 
-}
+  .map-card iframe {
+    height: 380px;
+  }
 
-@media(max-width:768px){
+  .faq-question {
+    padding: 20px;
+  }
 
-.page-header{
-
-margin:50px auto;
-
-}
-
-.page-header h1{
-
-font-size:2.8rem;
-
-}
-
-.contact-card h2{
-
-font-size:2rem;
-
-}
-
-.map-card iframe{
-
-height:380px;
-
-}
-
-.faq-question{
-
-padding:20px;
-
-}
-
-.faq-answer{
-
-padding:0 20px 20px;
-
-}
-
+  .faq-answer {
+    padding: 0 20px 20px;
+  }
 }
 </style>
