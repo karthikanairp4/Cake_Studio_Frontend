@@ -10,3 +10,12 @@ export async function getCakeById(id) {
   const response = await api.get(`${BASE_URL}/findCakeById/${id}`)
   return response.data
 }
+
+export async function searchCakes(keyword) {
+  const response = await api.get(`${BASE_URL}/search`, {
+    params: {
+      keyword,
+    },
+  })
+  return response.data
+}

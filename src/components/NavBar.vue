@@ -27,7 +27,7 @@
 
       <!-- Right Actions -->
       <div class="nav-actions">
-        <button class="search-btn">
+        <button class="search-btn" @click="showSearch = true">
           <i class="bi bi-search"></i>
         </button>
 
@@ -92,16 +92,17 @@
       </template>
     </div>
   </nav>
+  <SearchModal v-if="showSearch" @close="showSearch = false" />
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/authStore'
 import logo from '@/assets/images/pbakes.png'
+import SearchModal from '@/modal/SearchModal.vue'
 
 export default {
   setup() {
     const auth = useAuthStore()
-
     return { auth }
   },
 
@@ -110,9 +111,12 @@ export default {
       logo,
       showUserMenu: false,
       showMobileMenu: false,
+      showSearch: false,
     }
   },
-
+  components: {
+    SearchModal,
+  },
   mounted() {
     document.addEventListener('click', this.closeMenu)
   },
