@@ -8,7 +8,7 @@
     <div class="summary-body">
       <div class="summary-row">
         <span>Base Cake</span>
-        <span>${{ Number(cake.basePrice || 0).toFixed(2) }}</span>
+        <span>₹{{ Number(cake.basePrice || 0).toFixed(2) }}</span>
       </div>
 
       <div v-if="selected.weight" class="summary-row">
@@ -18,22 +18,22 @@
 
       <div v-if="selected.sponge" class="summary-row">
         <span>{{ selected.sponge.name }}</span>
-        <span>+${{ Number(selected.sponge.price).toFixed(2) }}</span>
+        <span>+₹{{ Number(selected.sponge.price).toFixed(2) }}</span>
       </div>
 
       <div v-if="selected.filling" class="summary-row">
         <span>{{ selected.filling.name }}</span>
-        <span>+${{ Number(selected.filling.price).toFixed(2) }}</span>
+        <span>+₹{{ Number(selected.filling.price).toFixed(2) }}</span>
       </div>
 
       <div v-if="selected.frosting" class="summary-row">
         <span>{{ selected.frosting.name }}</span>
-        <span>+${{ Number(selected.frosting.price).toFixed(2) }}</span>
+        <span>+₹{{ Number(selected.frosting.price).toFixed(2) }}</span>
       </div>
 
       <div v-if="cake.category === 'THEMED'" class="summary-row">
         <span>Customization</span>
-        <span>+$10.00</span>
+        <span>+	₹200.00</span>
       </div>
 
       <div class="summary-row">
@@ -46,7 +46,7 @@
       <div class="total-row">
         <span>Total</span>
 
-        <span class="price"> ${{ total.toFixed(2) }} </span>
+        <span class="price"> ₹{{ total.toFixed(2) }} </span>
       </div>
     </div>
 
@@ -91,7 +91,7 @@ export default {
         if (this.selected.frosting) total += Number(this.selected.frosting.price)
 
         // Decoration fee
-        total += 10
+        total += 200
       }
 
       // Apply quantity

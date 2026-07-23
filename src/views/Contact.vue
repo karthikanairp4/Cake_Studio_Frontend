@@ -206,7 +206,7 @@ export default {
         {
           question: 'Do you provide delivery?',
 
-          answer: 'Yes. Delivery is available within Winnipeg.',
+          answer: 'Yes. Delivery is available within Kottayam.',
 
           open: false,
         },

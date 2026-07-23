@@ -16,7 +16,7 @@
       <div class="summary-row">
         <span>Subtotal</span>
 
-        <span>${{ total.toFixed(2) }}</span>
+        <span>₹{{ total.toFixed(2) }}</span>
       </div>
 
       <div class="summary-row">
@@ -36,7 +36,7 @@
       <div class="total-row">
         <span>Total</span>
 
-        <span class="price"> ${{ total.toFixed(2) }} </span>
+        <span class="price"> ₹{{ total.toFixed(2) }} </span>
       </div>
     </div>
 

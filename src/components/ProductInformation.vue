@@ -65,7 +65,7 @@
 
           <li>Consume within 3 days.</li>
 
-          <li>Delivery available across Winnipeg.</li>
+          <li>Delivery available across Kottayam.</li>
         </ul>
       </template>
     </div>

@@ -12,7 +12,7 @@
           </p>
         </div>
 
-        <h2 class="price">${{ calculatePrice(item).toFixed(2) }}</h2>
+        <h2 class="price">₹{{ calculatePrice(item).toFixed(2) }}</h2>
       </div>
 
       <div
@@ -104,7 +104,7 @@ export default {
 
       if (item.frosting) total += item.frosting.price
 
-      if (item.cake.category === 'THEMED') total += 10
+      if (item.cake.category === 'THEMED') total += 200
 
       return total * item.quantity
     },

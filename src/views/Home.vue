@@ -92,7 +92,7 @@
             <div class="cake-content">
               <h3>{{ cake.name }}</h3>
 
-              <p>${{ cake.basePrice }}</p>
+              <p>₹{{ cake.basePrice }}</p>
 
               <button class="cake-btn" @click="goToDetails(cake.id)">Order Now</button>
             </div>

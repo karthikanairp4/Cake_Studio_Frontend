@@ -14,7 +14,7 @@
       <div class="freshly-baked">Handcrafted Daily</div>
 
       <p class="price">
-        {{ cake.category === 'THEMED' ? `Starting at $${cake.basePrice}` : `$${cake.basePrice}` }}
+        {{ cake.category === 'THEMED' ? `Starting at ₹${cake.basePrice}` : `₹${cake.basePrice}` }}
       </p>
 
       <button class="details-btn" @click.stop="goToDetails">

@@ -29,7 +29,7 @@
           <option disabled value="">Choose Sponge</option>
 
           <option v-for="item in sponges" :key="item.id" :value="item">
-            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
+            {{ item.name }} (+₹{{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
@@ -41,7 +41,7 @@
           <option disabled value="">Choose Filling</option>
 
           <option v-for="item in fillings" :key="item.id" :value="item">
-            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
+            {{ item.name }} (+₹{{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
@@ -53,7 +53,7 @@
           <option disabled value="">Choose Frosting</option>
 
           <option v-for="item in frostings" :key="item.id" :value="item">
-            {{ item.name }} (+${{ Number(item.price).toFixed(2) }})
+            {{ item.name }} (+₹{{ Number(item.price).toFixed(2) }})
           </option>
         </select>
       </div>
