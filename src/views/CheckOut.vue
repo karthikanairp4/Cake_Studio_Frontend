@@ -87,7 +87,7 @@
             </small>
           </div>
 
-          <strong> ${{ calculatePrice(item).toFixed(2) }} </strong>
+          <strong> ₹{{ calculatePrice(item).toFixed(2) }} </strong>
         </div>
 
         <hr />
@@ -95,7 +95,7 @@
         <div class="summary-total">
           <span>Total</span>
 
-          <strong> ${{ total.toFixed(2) }} </strong>
+          <strong> ₹{{ total.toFixed(2) }} </strong>
         </div>
       </div>
     </div>

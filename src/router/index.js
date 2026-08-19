@@ -1,8 +1,11 @@
+import AdminHome from '@/views/Admin/Admin-home.vue'
+import AdminCakes from '@/views/Admin/AdminCakes.vue'
+import AdminOrders from '@/views/Admin/AdminOrders.vue'
+import Reports from '@/views/Admin/Reports.vue'
 import Bag from '@/views/Bag.vue'
 import CakeDetails from '@/views/CakeDetails.vue'
 import Cakes from '@/views/Cakes.vue'
 import CheckOut from '@/views/CheckOut.vue'
-// import Cart from '@/views/Cart.vue'
 import Contact from '@/views/Contact.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
@@ -63,7 +66,22 @@ const routes = [
     path: '/bag',
     component: Bag,
   },
-
+  {
+    path: '/admin',
+    component: AdminHome,
+  },
+  {
+    path: '/admin/orders',
+    component: AdminOrders,
+  },
+  {
+    path: '/admin/cakes',
+    component: AdminCakes,
+  },
+  {
+    path: '/admin/reports',
+    component: Reports,
+  },
   // {
   //   path: '/make-cake',
   //   component: MakeCake,

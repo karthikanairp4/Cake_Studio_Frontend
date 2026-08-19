@@ -1,5 +1,4 @@
 import { BASE_URL } from '@/config/constants'
-// import axios from 'axios'
 import api from './api'
 
 export async function getAllCakeOptions() {

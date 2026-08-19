@@ -13,6 +13,7 @@ export default {
       token: this.$route.query.token,
       userId: Number(this.$route.query.userId),
       email: this.$route.query.email,
+      role: this.$route.query.role,
     })
 
     this.$router.push('/')

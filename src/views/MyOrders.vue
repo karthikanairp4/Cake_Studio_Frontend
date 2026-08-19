@@ -36,7 +36,13 @@
         <div class="right">
           <div class="amount">${{ order.totalAmount.toFixed(2) }}</div>
 
-          <button @click="openOrder(order)">View Details</button>
+          <div class="order-actions">
+            <button @click="openOrder(order)">View Details</button>
+
+            <button v-if="canCancel(order)" class="cancel-btn" @click="cancelOrder(order.id)">
+              Cancel Order
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +67,8 @@
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 
-import { getOrders } from '@/services/orderService'
+import { getOrders, cancelOrder as cancelOrderApi } from '@/services/orderService'
+
 import OrderDetailsModal from '@/modal/OrderDetailsModal.vue'
 
 export default {
@@ -79,16 +86,100 @@ export default {
   },
 
   async mounted() {
-    this.orders = await getOrders()
+    try {
+      this.orders = await getOrders()
+    } catch (error) {
+      console.error('Failed to load orders:', error)
+    }
   },
 
   methods: {
-    async openOrder(order) {
+    openOrder(order) {
       this.selectedOrder = order
     },
 
     formatDate(date) {
+      if (!date) {
+        return ''
+      }
+
       return new Date(date).toLocaleDateString()
+    },
+
+    canCancel(order) {
+      if (!order.pickupDate || !order.pickupTime) {
+        return false
+      }
+
+      // Only pending and confirmed orders can be cancelled
+      if (order.status !== 'PENDING' && order.status !== 'CONFIRMED') {
+        return false
+      }
+
+      // Get the starting time from:
+      // "12:00 PM - 2:00 PM"
+      const startTime = order.pickupTime.split('-')[0].trim()
+
+      // Extract hour, minute and AM/PM
+      const timeParts = startTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
+
+      if (!timeParts) {
+        console.error('Invalid pickup time:', order.pickupTime)
+        return false
+      }
+
+      // IMPORTANT: declare these variables
+      let hours = parseInt(timeParts[1], 10)
+      const minutes = parseInt(timeParts[2], 10)
+      const period = timeParts[3].toUpperCase()
+
+      // Convert 12-hour time to 24-hour time
+      if (period === 'PM' && hours !== 12) {
+        hours += 12
+      }
+
+      if (period === 'AM' && hours === 12) {
+        hours = 0
+      }
+
+      // Create pickup date/time
+      const pickupDateTime = new Date(
+        `${order.pickupDate}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`,
+      )
+
+      if (isNaN(pickupDateTime.getTime())) {
+        console.error('Invalid pickup date/time:', order.pickupDate, order.pickupTime)
+
+        return false
+      }
+
+      // 48 hours before pickup
+      const cancellationDeadline = new Date(pickupDateTime.getTime() - 48 * 60 * 60 * 1000)
+
+      const now = new Date()
+
+      return now < cancellationDeadline
+    },
+
+    async cancelOrder(orderId) {
+      const confirmed = window.confirm('Are you sure you want to cancel this order?')
+
+      if (!confirmed) {
+        return
+      }
+
+      try {
+        await cancelOrderApi(orderId)
+
+        alert('Order cancelled successfully.')
+
+        // Reload orders
+        this.orders = await getOrders()
+      } catch (error) {
+        console.error('Failed to cancel order:', error)
+
+        alert(error.response?.data?.message || 'Unable to cancel the order.')
+      }
     },
   },
 }
@@ -206,29 +297,45 @@ export default {
   margin-bottom: 18px;
 }
 
-.right button {
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.order-actions button {
   border: none;
-
   height: 48px;
-
-  padding: 0 28px;
-
+  padding: 0 24px;
   border-radius: 999px;
-
-  background: var(--secondary);
-
-  color: white;
-
   font-weight: 600;
-
   cursor: pointer;
-
   transition: 0.3s;
 }
 
-.right button:hover {
-  background: var(--secondary-hover);
+/* View Details */
 
+.order-actions button:first-child {
+  background: var(--secondary);
+  color: white;
+}
+
+.order-actions button:first-child:hover {
+  background: var(--secondary-hover);
+  transform: translateY(-2px);
+}
+
+/* Cancel Order */
+
+.order-actions .cancel-btn {
+  background: transparent;
+  color: #b04a4a;
+  border: 1px solid #d9aaaa;
+}
+
+.order-actions .cancel-btn:hover {
+  background: #fff1f1;
+  border-color: #b04a4a;
   transform: translateY(-2px);
 }
 
@@ -273,19 +380,21 @@ export default {
 @media (max-width: 768px) {
   .order-card {
     flex-direction: column;
-
     align-items: flex-start;
-
     gap: 24px;
   }
 
   .right {
     width: 100%;
-
     text-align: left;
   }
 
-  .right button {
+  .order-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .order-actions button {
     width: 100%;
   }
 

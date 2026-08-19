@@ -44,7 +44,11 @@ export default {
         if (response) {
           const auth = useAuthStore()
           auth.login(response)
-          this.$router.push('/')
+          if (response.role == 'CUSTOMER') {
+            this.$router.push('/')
+          } else {
+            this.$router.push('/admin')
+          }
         } else {
           alert('Invalid Credentials')
         }
@@ -54,7 +58,8 @@ export default {
       }
     },
     loginWithGoogle() {
-      window.location.href = 'https://cake-studio-backend.onrender.com/oauth2/authorization/google'
+      // window.location.href = 'https://cake-studio-backend.onrender.com/oauth2/authorization/google'
+      window.location.href = 'http://localhost:8000/oauth2/authorization/google'
     },
   },
 }
