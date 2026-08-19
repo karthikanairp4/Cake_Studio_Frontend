@@ -58,8 +58,8 @@ export default {
       }
     },
     loginWithGoogle() {
-      // window.location.href = 'https://cake-studio-backend.onrender.com/oauth2/authorization/google'
-      window.location.href = 'http://localhost:8000/oauth2/authorization/google'
+      window.location.href = 'https://cake-studio-backend.onrender.com/oauth2/authorization/google'
+      // window.location.href = 'http://localhost:8000/oauth2/authorization/google'
     },
   },
 }

@@ -522,7 +522,8 @@ export default {
         return imgUrl
       }
 
-      return `http://localhost:8000${imgUrl}`
+      // return `http://localhost:8000${imgUrl}`
+      return `https://cake-studio-backend.onrender.com${imgUrl}`
     },
 
     /* ================================= */
